@@ -36,29 +36,30 @@ void Painter::init() {
 void Painter::draw() {
     int x = 50;
     int y = 50;
-    int length = 100;
-    int width = 20;
+    int length = 1000;
+    int width = 200;
 
     int bpp = var_info.bits_per_pixel;
     int x_offset = var_info.xoffset;
     int y_offset = var_info.yoffset;
     int line_length = fixed_info.line_length;
 
-    std::default_random_engine generator;
-    //    srand(time(0));
+//    std::default_random_engine generator;
+        srand(time(0));
 
-    std::uniform_int_distribution<int> distribution(0, pow(2, bpp / 4));
+    //std::uniform_int_distribution<int> distribution(0, pow(2, bpp / 4));
     int color[4] = { 
-        distribution(generator),
+/*        distribution(generator),
         distribution(generator),
         distribution(generator),
         0
-            /*
+        */
+          
                rand() % (int) pow(2, bpp / 4),
                rand() % (int) pow(2, bpp / 4),
                rand() % (int) pow(2, bpp / 4),
                0
-               */
+               
     };
 
     for (int i = 0; i < width; i++) {
