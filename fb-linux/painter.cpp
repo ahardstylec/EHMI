@@ -48,7 +48,7 @@ void Painter::draw() {
     //    srand(time(0));
 
     std::uniform_int_distribution<int> distribution(0, pow(2, bpp / 4));
-    int color[4] = { 
+    int color[4] = {
         distribution(generator),
         distribution(generator),
         distribution(generator),
