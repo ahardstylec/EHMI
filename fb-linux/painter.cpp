@@ -44,22 +44,14 @@ void Painter::draw() {
     int y_offset = var_info.yoffset;
     int line_length = fixed_info.line_length;
 
-//    std::default_random_engine generator;
-        srand(time(0));
+    srand(time(0));
 
-    //std::uniform_int_distribution<int> distribution(0, pow(2, bpp / 4));
     int color[4] = { 
-/*        distribution(generator),
-        distribution(generator),
-        distribution(generator),
+        rand() % (int) pow(2, bpp / 4),
+        rand() % (int) pow(2, bpp / 4),
+        rand() % (int) pow(2, bpp / 4),
         0
-        */
-          
-               rand() % (int) pow(2, bpp / 4),
-               rand() % (int) pow(2, bpp / 4),
-               rand() % (int) pow(2, bpp / 4),
-               0
-               
+
     };
 
     for (int i = 0; i < width; i++) {
