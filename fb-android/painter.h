@@ -1,6 +1,7 @@
 #pragma once
 
 #include <linux/fb.h>
+#include <stdlib.h>
 
 class Painter {
     public:
@@ -14,6 +15,7 @@ class Painter {
         size_t screen_size;
         int framebuffer_handler;
 
-        void init();
+        int xres, yres, bpp;
+
 };
 

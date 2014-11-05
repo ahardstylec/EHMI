@@ -1,35 +1,30 @@
 #include <sys/mman.h>
-#include <stropts.h>
-#include <cstdio>
-#include <cerrno>
-#include <cstring>
+#include <sys/ioctl.h>
+#include <stdio.h>
+#include <errno.h>
+#include <string.h>
 #include <fcntl.h>
-#include <ctime>
-#include <random>
+#include <time.h>
 #include <unistd.h>
 #include "painter.h"
 
 Painter::Painter() {
-    init();
-}
+    framebuffer_handler = open("/dev/graphics/fb0", O_RDWR);
+    ioctl(framebuffer_handler, FBIOGET_FSCREENINFO, & fixed_info);
 
-void Painter::init() {
-    framebuffer_handler = open("/dev/fb0", O_RDWR);
-
-
-    ioctl(framebuffer_handler, FBIOGET_FSCREENINFO, &fixed_info);
-
-    printf("line length: %u\n", fixed_info.line_length);
-    printf("type: %u\n", fixed_info.type);
-
+    xres = 80;
+    yres = 48;
+    bpp = 32;
 
     ioctl(framebuffer_handler, FBIOGET_VSCREENINFO, & var_info);
     screen_size = var_info.xres * var_info.yres * var_info.bits_per_pixel / 8;
 
-    fb = reinterpret_cast<char *>(mmap(0, fixed_info.smem_len, PROT_READ | PROT_WRITE, MAP_SHARED, framebuffer_handler, 0));
+
+
+    fb = reinterpret_cast<char *>(mmap(0, screen_size, PROT_READ | PROT_WRITE, MAP_SHARED, framebuffer_handler, 0));
 
     if (MAP_FAILED == fb) {
-        throw strerror(errno);
+        printf("%s", strerror(errno));
     }
 }
 
@@ -39,13 +34,12 @@ void Painter::draw() {
     int length = 1000;
     int width = 200;
 
-    int bpp = var_info.bits_per_pixel;
-    int x_offset = var_info.xoffset;
-    int y_offset = var_info.yoffset;
-    int line_length = fixed_info.line_length;
+    int x_offset = 0;
+    int y_offset = 0;
+    int line_length = bpp * xres;
 
 //    std::default_random_engine generator;
-        srand(time(0));
+//        srand(time(0));
 
     //std::uniform_int_distribution<int> distribution(0, pow(2, bpp / 4));
     int color[4] = { 
@@ -55,9 +49,9 @@ void Painter::draw() {
         0
         */
           
-               rand() % (int) pow(2, bpp / 4),
-               rand() % (int) pow(2, bpp / 4),
-               rand() % (int) pow(2, bpp / 4),
+               33,
+               22,
+               4,
                0
                
     };
@@ -76,6 +70,7 @@ void Painter::draw() {
             pos += (int) (bpp / 8);
         }
     }
+    
 }
 
 Painter::~Painter() {
