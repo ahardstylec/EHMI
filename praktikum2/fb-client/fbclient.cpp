@@ -2,16 +2,13 @@
 #include "../fb-shared/framebuffer.h"
 #include <QString>
 #include <QDebug>
-#include <sys/mman.h>
-#include <fcntl.h>
-#include <unistd.h>
 
 FBClient::FBClient(Painter * painter)
 {
-    hostLineEdit = new QLineEdit("141.100.74.162");
-    portLineEdit = new QLineEdit(8081);
+    hostLineEdit = new QString("141.100.74.162");
+    portLineEdit = new qint16(8081);
     portLineEdit->setValidator(new QIntValidator(1, 65535, this));
-    self.painter  = painter;
+    this.painter  = painter;
     qtsocket = new QTcpSocket(this);
 
     //connect to Server

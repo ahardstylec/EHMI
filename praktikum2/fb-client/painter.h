@@ -3,6 +3,7 @@
 
 #include <QFile>
 #include "linux/fb.h"
+#include "../fb-shared/framebuffer.h"
 
 class Painter
 {

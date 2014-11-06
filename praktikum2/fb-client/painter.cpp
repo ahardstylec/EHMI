@@ -1,15 +1,25 @@
 #include "painter.h"
 #include <QFile>
 #include <cerrno>
+#include <cstdio>
+#include <sys/mman.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stropts.h>
+#include <linux/fb.h>
+#include <cstring>
 
-Painter::Painter()
+Painter::Painter() : framebuffer_handler("/dev/fb0")
 {
     init();
 }
 
-Painter::init(){
-    framebuffer_handler = QFile("/dev/fb0");
+Painter::~Painter(){
+    munmap(fb_data.frame, screen_size);
+    framebuffer_handler.close();
+}
 
+void Painter::init(){
     framebuffer_handler.open(QIODevice::ReadWrite);
 
     ioctl(framebuffer_handler.handle(), FBIOGET_FSCREENINFO, &fixed_info);
@@ -23,7 +33,7 @@ Painter::init(){
     fb_data.bpp = var_info.bits_per_pixel;
     fb_data.xres = var_info.xoffset;
     fb_data.xres = var_info.xoffset;
-    fb_data.frame = framebuffer_handler.map(0, fixed_info.smem_len);
+    fb_data.frame =  framebuffer_handler.map(0, fixed_info.smem_len);
 
     if (MAP_FAILED == fb) {
         throw strerror(errno);
@@ -31,12 +41,8 @@ Painter::init(){
 
 }
 
-Painter::Draw(FrameData * frame){
+void Painter::Draw(FrameData * frame){
     Qdebug() << "draw start";
 
 }
 
-Painter::~Painter(){
-    munmap(fb_data.frame, screen_size);
-    framebuffer_handler.close();
-}

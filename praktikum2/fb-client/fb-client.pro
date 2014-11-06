@@ -21,4 +21,5 @@ SOURCES += main.cpp \
 
 HEADERS += \
     painter.h \
-    fbclient.h
+    fbclient.h \
+    ../fb-shared/framebuffer.h
