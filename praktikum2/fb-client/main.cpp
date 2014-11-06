@@ -5,8 +5,8 @@
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    painter = Painter();
-    client = FBClient(&painter);
+    Painter painter;
+    FBClient client(&painter);
     
     return a.exec();
 }

@@ -1,15 +1,27 @@
 #include "painter.h"
 #include <QFile>
+#include <QDebug>
 #include <cerrno>
+#include <cstdio>
+#include <sys/mman.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stropts.h>
+#include <linux/fb.h>
+#include <cstring>
+#include <QByteArray>
 
-Painter::Painter()
+Painter::Painter() : framebuffer_handler("/dev/fb0")
 {
     init();
 }
 
-Painter::init(){
-    framebuffer_handler = QFile("/dev/fb0");
+Painter::~Painter(){
+    munmap(framebuffer, screen_size);
+    framebuffer_handler.close();
+}
 
+void Painter::init(){
     framebuffer_handler.open(QIODevice::ReadWrite);
 
     ioctl(framebuffer_handler.handle(), FBIOGET_FSCREENINFO, &fixed_info);
@@ -18,25 +30,25 @@ Painter::init(){
     printf("type: %u\n", fixed_info.type);
 
     ioctl(framebuffer_handler.handle(), FBIOGET_VSCREENINFO, & var_info);
-    screen_size = var_info.xres * var_info.yres * var_info.bits_per_pixel / 8;
+
 
     fb_data.bpp = var_info.bits_per_pixel;
     fb_data.xres = var_info.xoffset;
     fb_data.xres = var_info.xoffset;
-    fb_data.frame = framebuffer_handler.map(0, fixed_info.smem_len);
+    screen_size = this->get_screen_size(&fb_data);
+    framebuffer =  framebuffer_handler.map(0, fixed_info.smem_len);
 
-    if (MAP_FAILED == fb) {
+    if (MAP_FAILED == framebuffer) {
         throw strerror(errno);
     }
 
 }
 
-Painter::Draw(FrameData * frame){
-    Qdebug() << "draw start";
-
+quint16 Painter::get_screen_size(FrameData * frame_data){
+    return frame_data->xres * frame_data->yres * frame_data->bpp / 8;
 }
 
-Painter::~Painter(){
-    munmap(fb_data.frame, screen_size);
-    framebuffer_handler.close();
+void Painter::draw(QByteArray * frame){
+    qDebug() << "draw start";
 }
+

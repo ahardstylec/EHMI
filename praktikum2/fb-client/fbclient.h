@@ -3,20 +3,24 @@
 
 #include <QTcpSocket>
 #include <QtNetwork>
-#include "../fb-shared/framebuffer.h"
+#include <QString>
+#include <Q_INT32>
+//#include "../fb-shared/framebuffer.h"
 #include "painter.h"
+#include <QByteArray>
 
 class FBClient : public QObject
 {
 public:
-    FBClient(painter *);
+    FBClient(Painter *);
 
 private:
     void drawFrame();
     QTcpSocket * qtsocket;
-    QLineEdit *hostLineEdit;
-    QLineEdit *portLineEdit;
-    struct FrameData frame;
+    QHostAddress *hostLineEdit;
+    qint16 *portLineEdit;
+    FrameData remote_fbdata;
+    QByteArray frame;
     Painter * painter;
 private slots:
     void readFrame();

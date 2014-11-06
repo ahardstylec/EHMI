@@ -1,66 +1,49 @@
 #include "fbclient.h"
 #include "../fb-shared/framebuffer.h"
 #include <QString>
+#include <QtNetwork>
 #include <QDebug>
-#include <sys/mman.h>
-#include <fcntl.h>
-#include <unistd.h>
 
 FBClient::FBClient(Painter * painter)
 {
-    hostLineEdit = new QLineEdit("141.100.74.162");
-    portLineEdit = new QLineEdit(8081);
-    portLineEdit->setValidator(new QIntValidator(1, 65535, this));
-    self.painter  = painter;
+    this.painter  = painter;
+
+//    host = new QHostAddress("141.100.74.162");
+//    port = new qint16(8081);
     qtsocket = new QTcpSocket(this);
 
     //connect to Server
     qtsocket->abort();
-    qtsocket->connectToHost(hostLineEdit->text(),
-                             portLineEdit->text().toInt());
+    qtsocket->connectToHost("141.100.74.162", 8081);
 
     // bind socket to qt
-    connect(*qtsocket, SIGNAL(readyRead()), this, SLOT(readFrame()));
-
-    framebuffer_handler = open("/dev/fb0", O_RDWR);
-
-    ioctl(framebuffer_handler, FBIOGET_FSCREENINFO, &fixed_info);
-
-    printf("line length: %u\n", fixed_info.line_length);
-    printf("type: %u\n", fixed_info.type);
-
-
-    ioctl(framebuffer_handler, FBIOGET_VSCREENINFO, & var_info);
-    screen_size = var_info.xres * var_info.yres * var_info.bits_per_pixel / 8;
-
-    fb = reinterpret_cast<char *>(mmap(0, fixed_info.smem_len, PROT_READ | PROT_WRITE, MAP_SHARED, framebuffer_handler, 0));
-
-    if (MAP_FAILED == fb) {
-        throw strerror(errno);
-    }
-
+    connect(qtsocket, SIGNAL(readyRead()), this, SLOT(readFrame()));
 }
 
 void FBClient::readFrame(){
-    QDebug() << "start readFrame";
-    quint16 blockSize;
-    if (blockSize == 0) {
-        if (qtsocket->bytesAvailable() < (int)sizeof(quint16))
-            return;
+    qDebug() << "start readFrame";
+    int blockSize = sizeof(FormData);
+    char * tmp;
+//    if (blockSize == 0) {
+//        if (qtsocket->bytesAvailable() < (int)sizeof(quint16))
+//            return;
 
-        in >> blockSize;
-    }
-
+//       qtsocket->read(tmp, (int)sizeof(quint16));
+//       blockSize = *(quint16) tmp;
+//    }
+    // read FrameData from server
     if (qtsocket->bytesAvailable() < blockSize)
         return;
+    qtsocket->read((FrameData) remote_fbdata);
+    quint16 frame_size = painter->get_screen_size(remote_fbdata);
 
-    qtsocket->readData((FrameData) frame, blockSize);
+    qtsocket->read(frame, frame_size);
 
-    QDebug() << "readed Frame: ";
-    QDebug() << "read: " << blockSize << "Bytes";
-    QDebug() << "xres: " << frame.xres;
-    QDebug() << "yres: " << frame.yres;
-    QDebug() << "bpp: "  << frame.bpp;
-    painter->draw(frame);
+    qDebug() << "readed Frame: ";
+    qDebug() << "read: " << blockSize << "Bytes";
+    qDebug() << "xres: " << remote_fbdata.xres;
+    qDebug() << "yres: " << remote_fbdata.yres;
+    qDebug() << "bpp: "  << remote_fbdata.bpp;
+    painter->draw(&frame);
     return;
 }
