@@ -16,7 +16,9 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    client.cpp
+    painter.cpp \
+    fbclient.cpp
 
 HEADERS += \
-    client.h
+    painter.h \
+    fbclient.h

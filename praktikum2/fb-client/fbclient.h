@@ -1,10 +1,25 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
-class Client
+#include <QTcpSocket>
+#include <QtNetwork>
+#include "../fb-shared/framebuffer.h"
+#include "painter.h"
+
+class FBClient : public QObject
 {
 public:
-    Client();
+    FBClient(painter *);
+
+private:
+    void drawFrame();
+    QTcpSocket * qtsocket;
+    QLineEdit *hostLineEdit;
+    QLineEdit *portLineEdit;
+    struct FrameData frame;
+    Painter * painter;
+private slots:
+    void readFrame();
 };
 
 #endif // CLIENT_H
