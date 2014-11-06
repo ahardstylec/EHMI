@@ -2,6 +2,8 @@
 #define FBREADER_H
 
 #include <QObject>
+#include <QFile>
+#include "../fb-shared/framebuffer.h"
 
 class FBReader : public QObject
 {
@@ -9,9 +11,18 @@ class FBReader : public QObject
 public:
     explicit FBReader(QObject *parent = 0);
 
+    ~FBReader();
+
+    void getFrameData(FrameData & frameData);
+    void getFramebuffer(QByteArray &framebuffer);
 signals:
 
 public slots:
+
+private:
+    QFile framebuffer;
+    uchar * fb;
+    QByteArray frame;
 
 };
 

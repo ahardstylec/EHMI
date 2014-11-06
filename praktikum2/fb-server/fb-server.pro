@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core
+QT       += core network
 
 QT       -= gui
 
@@ -15,4 +15,11 @@ CONFIG   -= app_bundle
 TEMPLATE = app
 
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    fbserver.cpp \
+    fbreader.cpp
+
+HEADERS += \
+    ../fb-shared/framebuffer.h \
+    fbserver.h \
+    fbreader.h
