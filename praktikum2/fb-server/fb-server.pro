@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2014-11-06T11:13:27
+# Project created by QtCreator 2014-11-06T11:35:02
 #
 #-------------------------------------------------
 
@@ -8,7 +8,7 @@ QT       += core
 
 QT       -= gui
 
-TARGET = fb-socket
+TARGET = fb-server
 CONFIG   += console
 CONFIG   -= app_bundle
 
