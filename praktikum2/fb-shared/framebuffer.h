@@ -2,5 +2,5 @@
 
 struct FrameData {
     qint32 xres, yres, bpp;
-    QByteArray frame;
+    uchar * frame;
 };
