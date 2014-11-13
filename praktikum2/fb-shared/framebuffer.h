@@ -2,6 +2,6 @@
 #include <QByteArray>
 
 struct FrameData {
-    quint32 bytes;
+    quint64 bytes;
     qint64 xres, yres, bpp;
 };
