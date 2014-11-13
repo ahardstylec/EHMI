@@ -1,6 +1,6 @@
 CXX=clang++
 CXXFLAGS=-std=c++11 -mtune=native -march=native -O2 -g -Weverything -ferror-limit=1
-LDFLAGS=-lm
+LDFLAGS=-lm -lmagick
 SRC=painter.cpp
 INC=$(SRC,.cpp=.h)
 

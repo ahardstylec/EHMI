@@ -17,35 +17,28 @@ Painter::Painter() : framebuffer_handler("/dev/fb0")
 }
 
 Painter::~Painter(){
-    munmap(framebuffer, screen_size);
+    munmap(framebuffer, fb_data.bytes);
     framebuffer_handler.close();
 }
 
 void Painter::init(){
+//    qDebug() << "init painter";
     framebuffer_handler.open(QIODevice::ReadWrite);
 
-    ioctl(framebuffer_handler.handle(), FBIOGET_FSCREENINFO, &fixed_info);
-
-    printf("line length: %u\n", fixed_info.line_length);
-    printf("type: %u\n", fixed_info.type);
-
+    ioctl(framebuffer_handler.handle(), FBIOGET_FSCREENINFO, & fixed_info);
     ioctl(framebuffer_handler.handle(), FBIOGET_VSCREENINFO, & var_info);
 
+    framebuffer =  framebuffer_handler.map(0, fixed_info.smem_len);
 
     fb_data.bpp = var_info.bits_per_pixel;
     fb_data.xres = var_info.xoffset;
     fb_data.xres = var_info.xoffset;
-    screen_size = this->get_screen_size(&fb_data);
-    framebuffer =  framebuffer_handler.map(0, fixed_info.smem_len);
+    fb_data.bytes = fixed_info.smem_len;
 
     if (MAP_FAILED == framebuffer) {
         throw strerror(errno);
     }
 
-}
-
-quint16 Painter::get_screen_size(FrameData * frame_data){
-    return frame_data->xres * frame_data->yres * frame_data->bpp / 8;
 }
 
 void Painter::draw(QByteArray * frame){

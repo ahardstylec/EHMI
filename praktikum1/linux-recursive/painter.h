@@ -7,6 +7,7 @@ class Painter {
         Painter();
         ~Painter();
         void draw();
+        void make_screenshot();
     private:
         char * fb;
         struct fb_fix_screeninfo fixed_info;

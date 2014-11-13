@@ -8,6 +8,7 @@
 #include <random>
 #include <unistd.h>
 #include "painter.h"
+//#include <Magick++.h>
 
 Painter::Painter() {
     init();

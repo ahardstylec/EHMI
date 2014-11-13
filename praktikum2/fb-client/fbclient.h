@@ -1,29 +1,34 @@
-#ifndef CLIENT_H
-#define CLIENT_H
+#ifndef FBCLIENT_H
+#define FBCLIENT_H
 
 #include <QTcpSocket>
 #include <QtNetwork>
 #include <QString>
-#include <Q_INT32>
-//#include "../fb-shared/framebuffer.h"
+#include <QObject>
 #include "painter.h"
 #include <QByteArray>
 
 class FBClient : public QObject
 {
+    Q_OBJECT
 public:
-    FBClient(Painter *);
-
+    explicit FBClient(QObject * parent = 0);
+//    ~FBCLient();
+    Painter * painter;
+    void start();
 private:
     void drawFrame();
-    QTcpSocket * qtsocket;
+    QTcpSocket serverConnection;
     QHostAddress *hostLineEdit;
     qint16 *portLineEdit;
-    FrameData remote_fbdata;
-    QByteArray frame;
-    Painter * painter;
+    FrameData * remote_fbdata;
+    QByteArray * frame;
 private slots:
     void readFrame();
+    void connectSuccess();
+    void disconnect();
+    void connectToServer();
+    void connectError();
 };
 
-#endif // CLIENT_H
+#endif // FBCLIENT_H
