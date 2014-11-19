@@ -11,8 +11,7 @@ class Painter
 public:
     Painter();
     ~Painter();
-    void draw(FrameData *);
-    quint16 get_screen_size(FrameData *);
+    void draw(QByteArray *);
 private:
     FrameData fb_data;
     uchar  * framebuffer;
@@ -20,7 +19,6 @@ private:
     QFile framebuffer_handler;
     struct fb_fix_screeninfo fixed_info;
     struct fb_var_screeninfo var_info;
-    size_t screen_size;
     void init();
 };
 

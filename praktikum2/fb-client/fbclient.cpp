@@ -3,47 +3,85 @@
 #include <QString>
 #include <QtNetwork>
 #include <QDebug>
+#include <QObject>
 
-FBClient::FBClient(Painter * painter)
+FBClient::FBClient(QObject * parent) : QObject(parent)
 {
-    this.painter  = painter;
+    connect(&serverConnection, SIGNAL(connected()), this, SLOT(connectSuccess()));
+    connect(&serverConnection, SIGNAL(readyRead()), this, SLOT(readFrame()));
+    connect(&serverConnection, SIGNAL(disconnected()), this, SLOT(disconnect()));
+    connect(&serverConnection, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(connectError()));
+}
 
-//    host = new QHostAddress("141.100.74.162");
-//    port = new qint16(8081);
-    qtsocket = new QTcpSocket(this);
+void FBClient::start(){
+    this->connectToServer();
+}
 
+
+void FBClient::connectSuccess(){
+    qDebug() << "connected to Server";
+}
+
+
+void FBClient::connectError(){
+    qDebug() << "connect to Server failed: " << serverConnection.errorString();
+    QTimer::singleShot(5000, this, SLOT(connectToServer()));
+}
+
+void FBClient::connectToServer(){
     //connect to Server
-    qtsocket->abort();
-    qtsocket->connectToHost("141.100.74.162", 8081);
+    qDebug() << "connecting to Server";
+    serverConnection.abort();
+    serverConnection.connectToHost("141.100.40.220", 8081);
+}
 
-    // bind socket to qt
-    connect(qtsocket, SIGNAL(readyRead()), this, SLOT(readFrame()));
+void FBClient::disconnect(){
+    qDebug() << "disconnected from Server";
 }
 
 void FBClient::readFrame(){
     qDebug() << "start readFrame";
-    int blockSize = sizeof(FormData);
-    char * tmp;
-//    if (blockSize == 0) {
-//        if (qtsocket->bytesAvailable() < (int)sizeof(quint16))
-//            return;
+    qint64 frame_data_size =sizeof(FrameData);
+    qint16 blockSize;
+    QByteArray tmp;
+//    char* tmp;
+    QDataStream in(&serverConnection);
+    in.setVersion(QDataStream::Qt_4_8);
 
-//       qtsocket->read(tmp, (int)sizeof(quint16));
-//       blockSize = *(quint16) tmp;
-//    }
-    // read FrameData from server
-    if (qtsocket->bytesAvailable() < blockSize)
+    if (serverConnection.bytesAvailable() < (int)sizeof(qint16))
         return;
-    qtsocket->read((FrameData) remote_fbdata);
-    quint16 frame_size = painter->get_screen_size(remote_fbdata);
 
-    qtsocket->read(frame, frame_size);
+    in >> blockSize;
+
+    if (serverConnection.bytesAvailable() < blockSize){
+        qDebug() << "less bytes send as expected, expect: " << frame_data_size << " bytes available: "<< serverConnection.bytesAvailable()<< "bytes";
+        return;
+    }
+
+    qDebug() <<  "Server is sending FrameData";
+
+    remote_fbdata << in;
 
     qDebug() << "readed Frame: ";
-    qDebug() << "read: " << blockSize << "Bytes";
-    qDebug() << "xres: " << remote_fbdata.xres;
-    qDebug() << "yres: " << remote_fbdata.yres;
-    qDebug() << "bpp: "  << remote_fbdata.bpp;
-    painter->draw(&frame);
+    qDebug() << "xres: " << remote_fbdata->xres;
+    qDebug() << "yres: " << remote_fbdata->yres;
+    qDebug() << "bpp: "  << remote_fbdata->bpp;
+
+
+    blockSize= 0;
+
+    if (serverConnection.bytesAvailable() < (int)sizeof(qint16))
+        return;
+    in >> blockSize;
+
+    if (serverConnection.bytesAvailable() < blockSize){
+        qDebug() << "less bytes send as expected, expect: " << frame_data_size << " bytes available: "<< serverConnection.bytesAvailable()<< "bytes";
+        return;
+    }
+    qDebug() <<  "Server is sending Frame";
+
+    in >> frame;
+
+    painter->draw(frame);
     return;
 }

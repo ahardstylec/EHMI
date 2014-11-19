@@ -10,12 +10,14 @@
 #include <string.h>
 #include <time.h>
 #include <math.h>
+#include <Magick++.h>
 
 #include <exception>
 
 #include "painter.h"
 
-int main() {
+int main(int argc, char **argv) {
+	InitializeMagick(*argv);
     try {
         Painter painter;
         painter.draw();
