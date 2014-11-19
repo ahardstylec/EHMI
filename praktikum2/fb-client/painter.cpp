@@ -17,7 +17,8 @@ Painter::Painter() : framebuffer_handler("/dev/fb0")
 }
 
 Painter::~Painter(){
-    munmap(framebuffer, fb_data.bytes);
+    //munmap(framebuffer, fb_data.bytes);
+    framebuffer_handler.unmap(framebuffer);
     framebuffer_handler.close();
 }
 
@@ -33,7 +34,7 @@ void Painter::init(){
     fb_data.bpp = var_info.bits_per_pixel;
     fb_data.xres = var_info.xoffset;
     fb_data.xres = var_info.xoffset;
-    fb_data.bytes = fixed_info.smem_len;
+    //fb_data.bytes = fixed_info.smem_len;
 
     if (MAP_FAILED == framebuffer) {
         throw strerror(errno);

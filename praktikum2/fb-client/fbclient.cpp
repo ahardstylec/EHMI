@@ -32,7 +32,7 @@ void FBClient::connectToServer(){
     //connect to Server
     qDebug() << "connecting to Server";
     serverConnection.abort();
-    serverConnection.connectToHost("141.100.40.220", 8081);
+    serverConnection.connectToHost("127.0.0.1", 8081);
 }
 
 void FBClient::disconnect(){
@@ -60,7 +60,8 @@ void FBClient::readFrame(){
 
     qDebug() <<  "Server is sending FrameData";
 
-    remote_fbdata << in;
+    in >> remote_fbdata;
+    //remote_fbdata << in;
 
     qDebug() << "readed Frame: ";
     qDebug() << "xres: " << remote_fbdata->xres;
@@ -80,7 +81,8 @@ void FBClient::readFrame(){
     }
     qDebug() <<  "Server is sending Frame";
 
-    in >> frame;
+    //frame << in;
+    in >> *frame;
 
     painter->draw(frame);
     return;
