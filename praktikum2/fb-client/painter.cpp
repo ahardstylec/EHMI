@@ -18,9 +18,9 @@ Painter::Painter() : framebuffer_handler("/dev/fb0")
 }
 
 Painter::~Painter(){
-    munmap(framebuffer, fixed_info.smem_len);
-    //munmap(framebuffer, fb_data.bytes);
-    //framebuffer_handler.unmap(framebuffer);
+//    munmap(framebuffer, fixed_info.smem_len);
+
+    framebuffer_handler.unmap(framebuffer);
     framebuffer_handler.close();
 }
 

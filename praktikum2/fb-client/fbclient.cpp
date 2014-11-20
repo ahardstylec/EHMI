@@ -61,7 +61,6 @@ void FBClient::readFrame(){
     qDebug() <<  "Server is sending FrameData " << blockSize;
 
     remote_fbdata << in;
-    in >> remote_fbdata;
     qDebug() << "readed Frame: ";
     qDebug() << "xres: " << remote_fbdata.xres;
     qDebug() << "yres: " << remote_fbdata.yres;
