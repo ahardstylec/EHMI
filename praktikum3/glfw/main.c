@@ -1,8 +1,9 @@
-#include <stdio.h>
+#include "simpleHMI.h"
 
 int main(void)
 {
-    printf("Hello World!\n");
+    shmi_run();
+
     return 0;
 }
 
