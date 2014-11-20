@@ -21,8 +21,8 @@ private:
     QTcpSocket serverConnection;
     QHostAddress *hostLineEdit;
     qint16 *portLineEdit;
-    FrameData * remote_fbdata;
-    QByteArray * frame;
+    FrameData remote_fbdata;
+    QByteArray frame;
 private slots:
     void readFrame();
     void connectSuccess();
