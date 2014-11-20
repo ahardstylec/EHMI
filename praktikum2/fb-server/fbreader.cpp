@@ -1,32 +1,40 @@
 #include "fbreader.h"
 #include <QDataStream>
 #include <QByteArray>
+#include <linux/fb.h>
+#include <stropts.h>
+#include <QDebug>
+#include <string.h>
 
 FBReader::FBReader(QObject *parent) :
     QObject(parent), framebuffer("/dev/fb0")
 {
     framebuffer.open(QIODevice::ReadOnly);
-    fb = framebuffer.map(0,framebuffer.size());
+    ioctl(framebuffer.handle(), FBIOGET_FSCREENINFO, & fixed_info);
+    ioctl(framebuffer.handle(), FBIOGET_VSCREENINFO, & var_info);
+
+    qDebug() << "fb smem size: " <<  qint64(fixed_info.smem_len);
+    fb = framebuffer.map(0, qint64(fixed_info.smem_len));
 }
 
 FBReader::~FBReader() {
     framebuffer.unmap(fb);
     framebuffer.close();
+
 }
 
 void FBReader::getFrameData(FrameData & frameData) {
-    struct fb_fix_screeninfo fixed_info;
-    struct fb_var_screeninfo var_info;
-
-    ioctl(fb, FBIOGET_FSCREENINFO, & fixed_info);
-    ioctl(fb, FBIOGET_VSCREENINFO, & var_info);
-
     frameData.bpp = var_info.bits_per_pixel;
     frameData.xres = var_info.xres;
     frameData.yres = var_info.yres;
 }
 
-QBytearray & FBReader::getFramebuffer() {
-    frame.fromRawData(fb, framebuffer.size());
+QByteArray & FBReader::getFramebuffer() {
+    frame = QByteArray((const char *) fb, fixed_info.smem_len);
+    qDebug() << "frame size: " << frame.size();
     return frame;
+}
+
+quint32 FBReader::fbSize() {
+    return fixed_info.smem_len;
 }

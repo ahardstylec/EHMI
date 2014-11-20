@@ -6,7 +6,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    FBServer server;
+    FBServer server(&a);
     server.start();
 
     return a.exec();
