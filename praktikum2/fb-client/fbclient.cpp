@@ -4,6 +4,7 @@
 #include <QtNetwork>
 #include <QDebug>
 #include <QObject>
+#include <iostream>
 
 FBClient::FBClient(QObject * parent) : QObject(parent)
 {
@@ -32,7 +33,7 @@ void FBClient::connectToServer(){
     //connect to Server
     qDebug() << "connecting to Server";
     serverConnection.abort();
-    serverConnection.connectToHost("127.0.0.1", 8081);
+    serverConnection.connectToHost("141.100.74.138", 8081);
 }
 
 void FBClient::disconnect(){
@@ -75,12 +76,19 @@ void FBClient::readFrame(){
     qDebug() <<  "Server is sending Frame with" << blocksize_new << "bytes";
     quint32 bytes_read= 0;
     QByteArray read_tmp_array;
+    int i =0;
     while(bytes_read < blocksize_new){
        serverConnection.waitForReadyRead();
        read_tmp_array  = serverConnection.readAll();
        frame+read_tmp_array;
        bytes_read+=read_tmp_array.size();
+       if(i%10 == 0){
+        std::cout << "\rrecieved data bytes read: " << bytes_read/1024 << " KB \t\t\t";
+       }
+       i++;
     }
+
+    std::cout << std::endl;
 
     painter->draw(&frame, &remote_fbdata);
     serverConnection.disconnectFromHost();
