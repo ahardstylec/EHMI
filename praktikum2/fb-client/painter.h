@@ -11,7 +11,7 @@ class Painter
 public:
     Painter();
     ~Painter();
-    void draw(QByteArray *);
+    void draw(QByteArray *, FrameData *);
 private:
     FrameData fb_data;
     uchar  * framebuffer;

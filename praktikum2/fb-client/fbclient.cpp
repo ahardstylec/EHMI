@@ -58,32 +58,32 @@ void FBClient::readFrame(){
         return;
     }
 
-    qDebug() <<  "Server is sending FrameData";
+    qDebug() <<  "Server is sending FrameData " << blockSize;
 
+    remote_fbdata << in;
     in >> remote_fbdata;
-    //remote_fbdata << in;
-
     qDebug() << "readed Frame: ";
-    qDebug() << "xres: " << remote_fbdata->xres;
-    qDebug() << "yres: " << remote_fbdata->yres;
-    qDebug() << "bpp: "  << remote_fbdata->bpp;
+    qDebug() << "xres: " << remote_fbdata.xres;
+    qDebug() << "yres: " << remote_fbdata.yres;
+    qDebug() << "bpp: "  << remote_fbdata.bpp;
 
-
-    blockSize= 0;
-
-    if (serverConnection.bytesAvailable() < (int)sizeof(qint16))
+    quint32 blocksize_new= 0;
+    if (serverConnection.bytesAvailable() < (int)sizeof(quint32))
         return;
-    in >> blockSize;
+    in >> blocksize_new;
 
-    if (serverConnection.bytesAvailable() < blockSize){
-        qDebug() << "less bytes send as expected, expect: " << frame_data_size << " bytes available: "<< serverConnection.bytesAvailable()<< "bytes";
-        return;
+
+    qDebug() <<  "Server is sending Frame with" << blocksize_new << "bytes";
+    quint32 bytes_read= 0;
+    QByteArray read_tmp_array;
+    while(bytes_read < blocksize_new){
+       serverConnection.waitForReadyRead();
+       read_tmp_array  = serverConnection.readAll();
+       frame+read_tmp_array;
+       bytes_read+=read_tmp_array.size();
     }
-    qDebug() <<  "Server is sending Frame";
 
-    //frame << in;
-    in >> *frame;
-
-    painter->draw(frame);
+    painter->draw(&frame, &remote_fbdata);
+    serverConnection.disconnectFromHost();
     return;
 }
