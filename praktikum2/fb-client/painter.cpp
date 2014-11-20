@@ -37,9 +37,6 @@ void Painter::init(){
     fb_data.bpp = var_info.bits_per_pixel;
     fb_data.xres = var_info.xres;
     fb_data.yres = var_info.yres;
-    fb_data.xres = var_info.xoffset;
-    fb_data.xres = var_info.xoffset;
-
 
     qDebug() << "xres: " << fb_data.xres;
     qDebug() << "yres: " << fb_data.yres;
@@ -57,6 +54,7 @@ struct Pixel {
 
 void Painter::draw(QByteArray * frame, FrameData * frame_data){
      qDebug() << "draw start";
+     qDebug() << "recieved frame size" << frame->size();
      Pixel * pixel_framebuffer = reinterpret_cast<Pixel *>(framebuffer);
      Pixel * remote_framebuffer = reinterpret_cast<Pixel *>(frame->data());
 //     Magick::Image image;
@@ -64,23 +62,28 @@ void Painter::draw(QByteArray * frame, FrameData * frame_data){
 //     image.read(frame_data->xres, frame_data->yres, "BGRA", Magick::CharPixel, frame->data());
 //     qDebug() << "read image end start";
 //     Magick::Geometry new_size(fb_data.xres, fb_data.yres);
-//     new_size.aspect(true);
+////     new_size.aspect(true);
 //     image.sample(new_size);
 //     Magick::Pixels view(image);
 //     Magick::PixelPacket * pixelpacket = view.get(0,0, image.columns(), image.rows());
 
-     qDebug() << "draw fb " << fb_data.xres << "x" << frame_data->yres;
-     for (int i = 0; i < fb_data.xres; i++) {
-         long int pos = i * fb_data.xres;
-         for (int j = 0; j < fb_data.yres; j++) {
-             struct Pixel pixel;
-             *pixel.blue = (uchar)(0xff);// pixelpacket->blue;
-             *pixel.green = (uchar)(0xff); //pixelpacket->green;
-             *pixel.red = (uchar)(0xff); //pixelpacket->red;
-             *pixel.alpha = (uchar)(0xff); //pixelpacket->opacity;
-             pixel_framebuffer[pos] = pixel;//remote_framebuffer[pos];
-             pos ++;
+//     qDebug() << "draw fb " << fb_data.xres << "x" << frame_data->yres;
+     for (int i = 0; i < frame_data->yres; i++) {
+         long int pos = i * frame_data->xres;
+         for (int j = 0; j < frame_data->xres; j++) {
+//             struct Pixel pixel;
+//             *pixel.blue = pixelpacket->blue;
+//             *pixel.green = pixelpacket->green;
+//             *pixel.red = pixelpacket->red;
+//             *pixel.alpha = pixelpacket->opacity;
+//              pixel_framebuffer[pos] = remote_framebuffer[pos];
 //             *pixelpacket++;
+//             *pixel.blue = (uchar)(0xff);// pixelpacket->blue;
+//             *pixel.green = (uchar)(0xff); //pixelpacket->green;
+//             *pixel.red = (uchar)(0xff); //pixelpacket->red;
+//             *pixel.alpha = (uchar)(0xff); //pixelpacket->opacity;
+             pixel_framebuffer[pos] = remote_framebuffer[pos];
+             pos ++;
          }
      }
      qDebug() << "draw end";

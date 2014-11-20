@@ -80,7 +80,7 @@ void FBClient::readFrame(){
     while(bytes_read < blocksize_new){
        serverConnection.waitForReadyRead();
        read_tmp_array  = serverConnection.readAll();
-       frame+read_tmp_array;
+       frame+=read_tmp_array;
        bytes_read+=read_tmp_array.size();
        if(i%10 == 0){
         std::cout << "\rrecieved data bytes read: " << bytes_read/1024 << " KB \t\t\t";
