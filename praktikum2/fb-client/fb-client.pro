@@ -7,9 +7,7 @@ QT       += core network
 
 QT       -= gui
 
-QMAKE_CXXFLAGS += -g -fopenmp -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16 -fopenmp -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16 -fopenmp -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16 -I/usr/include/ImageMagick-6
-
-LIBS += -lMagick++-6.Q16HDRI -lMagickWand-6.Q16HDRI -lMagickCore-6.Q16HDRI
+QMAKE_CXXFLAGS += -g
 
 TARGET = fb-client
 CONFIG   += console
