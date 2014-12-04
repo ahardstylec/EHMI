@@ -13,8 +13,18 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+        CanTraceParser.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+            CanTraceParser.h
 
 FORMS    += mainwindow.ui
+
+OTHER_FILES += data/CanTraceFile.txt
+
+copydata.commands = $(COPY_DIR) $$PWD/data $$OUT_PWD
+first.depends = $(first) copydata
+export(first.depends)
+export(copydata.commands)
+QMAKE_EXTRA_TARGETS += first copydata
