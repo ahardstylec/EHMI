@@ -23,3 +23,5 @@ HEADERS += \
     ../fb-shared/framebuffer.h \
     fbserver.h \
     fbreader.h
+
+QMAKE_CFLAGS += -O2 -mtune=native -flto
