@@ -33,7 +33,7 @@ void FBClient::connectToServer(){
     //connect to Server
     qDebug() << "connecting to Server";
     serverConnection.abort();
-    serverConnection.connectToHost("141.100.74.138", 8081);
+    serverConnection.connectToHost("141.100.75.8", 8081);
 }
 
 void FBClient::disconnect(){
