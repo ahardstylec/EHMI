@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     canParser.SetFile("data/CanTraceFile.txt");
-    qint64 size;
+    qint64 size = 0;
     QFile myFile("data/CanTraceFile.txt");
     if (myFile.open(QIODevice::ReadOnly)){
         size = myFile.size();  //when file does open.
@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->playPosition->setMaximum(size/64);
     ui->playPosition->setMinimum(0);
 
-    connect(canParser.m_Timer, SIGNAL(timeout()), this, SLOT(updateTimer));
+    connect(canParser.m_Timer, SIGNAL(timeout()), this, SLOT(updateTimer()));
     connect(&canParser, SIGNAL(Speed(qreal)), ui->lcdKmh, SLOT(display(qreal)));
     connect(&canParser, SIGNAL(RPM(qreal)), ui->lcdRpm, SLOT(display(qreal)));
     connect(&canParser, SIGNAL(Pedal(qreal)), ui->lcdGaspedal, SLOT(display(qreal)));
@@ -28,6 +28,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&canParser, SIGNAL(Blinker(int)), this, SLOT(displayBlinker(int)));
     connect(ui->changePlaySpeed, SIGNAL(valueChanged(int)), &canParser, SLOT(SetTimeout(int)));
     connect(ui->playPosition, SIGNAL(sliderMoved(int)), this, SLOT(setTime(int)));
+
+    connect(&canParser, SIGNAL(Temperature(qreal)), ui->graphicsView->getTemperatureBarPtr(), SLOT(update(qreal)));
 }
 
 void MainWindow::displayBlinker(int blinker){

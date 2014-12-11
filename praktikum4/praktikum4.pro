@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui svg
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -14,10 +14,15 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-        CanTraceParser.cpp
+        CanTraceParser.cpp \
+    qsvgview.cpp \
+    temperaturebar.cpp
 
 HEADERS  += mainwindow.h \
-            CanTraceParser.h
+            CanTraceParser.h \
+    qsvgview.h \
+    temperaturebar.h \
+    global.h
 
 FORMS    += mainwindow.ui
 
@@ -28,3 +33,6 @@ first.depends = $(first) copydata
 export(first.depends)
 export(copydata.commands)
 QMAKE_EXTRA_TARGETS += first copydata
+
+
+QMAKE_CXXFLAGS += -std=c++11

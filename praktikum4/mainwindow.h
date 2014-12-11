@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "CanTraceParser.h"
 #include <QTime>
+#include "temperaturebar.h"
 
 namespace Ui {
 class MainWindow;
@@ -27,6 +28,14 @@ private slots:
 private:
     Ui::MainWindow *ui;
     CanTraceParser canParser;
+
+    // display items
+    QGraphicsSvgItem * mStaticViewPtr;
+    QGraphicsSvgItem * mStaticBackgroundPtr;
+
+    QGraphicsItem * mTemperatureBarPtr;
+
+    void loadImage(QGraphicsSvgItem **svgItemPtr, const QString &filename);
 };
 
 #endif // MAINWINDOW_H
