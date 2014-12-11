@@ -63,6 +63,15 @@ void CanTraceParser::SetRepeatForever(bool repeat)
     m_bRepeatForever = repeat;
 }
 
+void CanTraceParser::setTime(int position)
+{
+    qDebug() << "change time position "<< position<< endl;
+    if(m_Timer->isActive())
+        m_Timer->stop();
+    m_TextStream->seek(position*64);
+    m_Timer->start();
+}
+
 
 
 void CanTraceParser::ProcessLine(QString _Line)
@@ -186,7 +195,7 @@ void CanTraceParser::ProcessLine(QString _Line)
                 // Richtiger Wert
                 myWinkel = myWinkel * 0.1 + 0;
 
-                // Vorzeichen anfügen
+                // Vorzeichen anfï¿½gen
                 if(myVorzeichen==1)
                 {
                    myWinkel *= -1;

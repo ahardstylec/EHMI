@@ -12,7 +12,6 @@ class CanTraceParser : public QObject
     Q_OBJECT
 
 private:
-    QTimer *m_Timer;
     QTextStream *m_TextStream;
 
     void ProcessLine(QString);
@@ -22,8 +21,8 @@ private:
 
 
 public:
+    QTimer *m_Timer;
     explicit CanTraceParser(QObject *parent = 0);
-
 
 signals:
     void CANMessage(QString);
@@ -67,6 +66,8 @@ public slots:
     void Stop();
 
     void SetRepeatForever(bool);
+    void setTime(int);
+
 
 };
 
