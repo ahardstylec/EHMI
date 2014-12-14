@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>448</width>
-    <height>300</height>
+    <height>353</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -78,6 +78,9 @@
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
          <widget class="QCheckBox" name="checkBoxBlinkerLinks">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>links</string>
           </property>
@@ -85,6 +88,9 @@
         </item>
         <item>
          <widget class="QCheckBox" name="checkBoxBlinkerRechts">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>rechts</string>
           </property>
@@ -173,7 +179,7 @@
      <x>0</x>
      <y>0</y>
      <width>448</width>
-     <height>19</height>
+     <height>27</height>
     </rect>
    </property>
   </widget>

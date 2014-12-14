@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     ui->playPosition->setMaximum(size/64);
     ui->playPosition->setMinimum(0);
+    time_elapsed=0;
+    time.setHMS(0,0,0,0);
 
     connect(canParser.m_Timer, SIGNAL(timeout()), this, SLOT(updateTimer()));
     connect(&canParser, SIGNAL(Speed(qreal)), ui->lcdKmh, SLOT(display(qreal)));
@@ -30,6 +32,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->playPosition, SIGNAL(sliderMoved(int)), this, SLOT(setTime(int)));
 
     connect(&canParser, SIGNAL(Temperature(qreal)), ui->graphicsView->getTemperatureBarPtr(), SLOT(update(qreal)));
+    connect(&canParser, SIGNAL(Blinker(int)), ui->graphicsView->getBlinkerLeftPtr(), SLOT(update(int)));
+    connect(&canParser, SIGNAL(Blinker(int)), ui->graphicsView->getBlinkerRightPtr(), SLOT(update(int)));
 }
 
 void MainWindow::displayBlinker(int blinker){
@@ -43,14 +47,31 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::updateTimer(){
-    time = time.addSecs(1);
+    time_elapsed += 20;
+
+
+    int h = time_elapsed/3600000;
+    int s = time_elapsed/1000 < 60 ? time_elapsed/1000 : time_elapsed/1000 %60;
+    int m = time_elapsed/60000 < 60 ? time_elapsed/60000 : time_elapsed/60000 % 60;
+    int ms = time_elapsed < 1000 ? time_elapsed : time_elapsed % 1000;
+    time.setHMS(h,m,s, ms);
+
+    qDebug() << time_elapsed << " " << time.toString("hh:mm:ss") << endl;
     ui->lcdTimer->display(time.toString("hh:mm:ss"));
+    ui->playPosition->setValue(time_elapsed);
 }
 
-void MainWindow::setTime(int sec){
-    time = time.addSecs(sec);
-    ui->lcdTimer->display( time.toString("hh:mm:ss"));
-    canParser.setTime(sec);
+void MainWindow::setTime(int msec){
+    time_elapsed = msec;
+    int h = time_elapsed/3600000;
+    int s = time_elapsed/1000 < 60 ? time_elapsed/1000 : time_elapsed/1000 %60;
+    int m = time_elapsed/60000 < 60 ? time_elapsed/60000 : time_elapsed/60000 % 60;
+    int ms = time_elapsed < 1000 ? time_elapsed : time_elapsed % 1000;
+    time.setHMS(h,m,s, ms);
+
+    qDebug() << time_elapsed << " " << time.toString("hh:mm:ss") << endl;
+    ui->lcdTimer->display(time.toString("hh:mm:ss"));
+    canParser.setTime(time_elapsed);
 }
 
 void MainWindow::on_pushButton_toggled(bool checked)

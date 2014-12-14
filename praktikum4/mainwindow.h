@@ -17,6 +17,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     QTime time;
+    qint64 time_elapsed;
     ~MainWindow();
 
 private slots:

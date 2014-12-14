@@ -9,6 +9,11 @@ class TemperatureBar : public QGraphicsSvgItem
     Q_OBJECT
 public:
     TemperatureBar();
+    qreal min= 15.0;
+    qreal max= 120.0;
+    qreal originalHeight, originalWidth;
+    qreal xpos,ypos;
+
     void resize(qreal xpos, qreal ypos);
 signals:
 

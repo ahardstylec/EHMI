@@ -16,13 +16,19 @@ SOURCES += main.cpp\
         mainwindow.cpp \
         CanTraceParser.cpp \
     qsvgview.cpp \
-    temperaturebar.cpp
+    temperaturebar.cpp \
+    steeringwheel.cpp \
+    blinker.cpp \
+    gaspedal.cpp
 
 HEADERS  += mainwindow.h \
             CanTraceParser.h \
     qsvgview.h \
     temperaturebar.h \
-    global.h
+    global.h \
+    steeringwheel.h \
+    blinker.h \
+    gaspedal.h
 
 FORMS    += mainwindow.ui
 

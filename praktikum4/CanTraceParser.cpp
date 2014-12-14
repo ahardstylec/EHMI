@@ -65,7 +65,7 @@ void CanTraceParser::SetRepeatForever(bool repeat)
 
 void CanTraceParser::setTime(int position)
 {
-    qDebug() << "change time position "<< position<< endl;
+    qDebug() << "change time position "<< position/64 << endl;
     if(m_Timer->isActive())
         m_Timer->stop();
     m_TextStream->seek(position*64);
