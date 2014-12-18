@@ -2,28 +2,17 @@
 #define TEMPERATUREBAR_H
 
 #include <QObject>
-#include <QGraphicsSvgItem>
+#include "qsvgviewitem.h"
 
-class TemperatureBar : public QGraphicsSvgItem
+class TemperatureBar : public QSvgViewItem
 {
     Q_OBJECT
 public:
     TemperatureBar();
-    qreal min= 15.0;
-    qreal max= 120.0;
-    qreal originalHeight, originalWidth;
-    qreal xpos,ypos;
-
-    void resize(qreal xpos, qreal ypos);
-signals:
+    ~TemperatureBar();
 
 public slots:
-    void update(qreal value);
-
-
-private:
-  //  const QString mImageFile = "data/bilder/normal-temperature.svg";
-
+    virtual void update(qreal value) = 0;
 };
 
 #endif // TEMPERATUREBAR_H

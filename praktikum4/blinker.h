@@ -1,27 +1,29 @@
 #ifndef BLINKERRIGHT_H
 #define BLINKERRIGHT_H
 
-
 #include <QObject>
 #include <QTimer>
-#include <QGraphicsSvgItem>
+#include "global.h"
+#include <QTime>
 
-class Blinker : public QGraphicsSvgItem
+class Blinker : public QSvgViewItem
 {
     Q_OBJECT
 public:
-    Blinker(QString filename, qreal xpos, qreal ypos, int side);
+    Blinker(int side);
     ~Blinker();
-    qreal xpos;
-    qreal ypos;
     int side;
-    void resize(qreal xpos, qreal ypos);
+    bool isBlinking;
     QTimer timer;
+
 signals:
+    bool setLight(bool);
 
 public slots:
     void update(int value);
-    void toggleVisibility();
+    void toggleBlinker();
+    void blinkerWatchDog();
+
 };
 
 #endif // BLINKERRIGHT_H

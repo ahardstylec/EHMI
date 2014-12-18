@@ -7,11 +7,14 @@
 #include "steeringwheel.h"
 #include "blinker.h"
 #include "gaspedal.h"
+#include "speedneedle.h"
+#include "rpmneedle.h"
+#include "global.h"
 
 class QSvgView : public QGraphicsView {
     Q_OBJECT
 public:
-    QSvgView(QWidget * parent);
+    QSvgView(QWidget * parent, mode modus);
     ~QSvgView();
 
     void loadStaticBackground(const QString &filename);
@@ -22,6 +25,8 @@ public:
     Blinker *getBlinkerRightPtr();
     Blinker *getBlinkerLeftPtr();
     GasPedal * getGasPedalPtr();
+    SpeedNeedle * getSpeedNeedlePtr();
+    RpmNeedle * getRpmNeedlePtr();
 
 protected:
     void resizeEvent(QResizeEvent *event);
@@ -37,6 +42,8 @@ private:
     Blinker * mBlinkerRightPtr;
     Blinker * mBlinkerLeftPtr;
     GasPedal * mGasPedalPtr;
+    SpeedNeedle * mSpeedNeedlePtr;
+    RpmNeedle *mRpmNeedlePtr;
 
 };
 

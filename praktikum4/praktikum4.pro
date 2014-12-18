@@ -19,7 +19,22 @@ SOURCES += main.cpp\
     temperaturebar.cpp \
     steeringwheel.cpp \
     blinker.cpp \
-    gaspedal.cpp
+    gaspedal.cpp \
+    rpmneedle.cpp \
+    temperaturebarnormal.cpp \
+    temperaturebarspecial.cpp \
+    steeringwheelnormal.cpp \
+    steeringwheelspecial.cpp \
+    speedneedlenormal.cpp \
+    speedneedle.cpp \
+    qsvgviewitem.cpp \
+    speedneedlespecial.cpp \
+    rpmneedlenormal.cpp \
+    rpmneedlespecial.cpp \
+    gaspedalnormal.cpp \
+    gaspedalspecial.cpp \
+    blinkernormal.cpp \
+    blinkerspecial.cpp
 
 HEADERS  += mainwindow.h \
             CanTraceParser.h \
@@ -28,7 +43,22 @@ HEADERS  += mainwindow.h \
     global.h \
     steeringwheel.h \
     blinker.h \
-    gaspedal.h
+    gaspedal.h \
+    rpmneedle.h \
+    temperaturebarnormal.h \
+    temperaturebarspecial.h \
+    steeringwheelnormal.h \
+    steeringwheelspecial.h \
+    speedneedlenormal.h \
+    speedneedle.h \
+    qsvgviewitem.h \
+    speedneedlespecial.h \
+    rpmneedlenormal.h \
+    rpmneedlespecial.h \
+    gaspedalnormal.h \
+    gaspedalspecial.h \
+    blinkernormal.h \
+    blinkerspecial.h
 
 FORMS    += mainwindow.ui
 

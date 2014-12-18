@@ -4,13 +4,14 @@
 #include <QGraphicsScene>
 #include <QGraphicsSvgItem>
 
-QSvgView::QSvgView(QWidget * parent) : QGraphicsView(parent),
-    mTemperatureBarPtr(new TemperatureBar()),
-    mSteeringWheelPtr(new SteeringWheel()),
-    mBlinkerLeftPtr(new Blinker("data/bilder/normal-blinker_left.svg", 140, 310, 1)),
-    mBlinkerRightPtr(new Blinker("data/bilder/normal-blinker_right.svg", 795, 325, -1)),
-    mGasPedalPtr(new GasPedal())
-
+QSvgView::QSvgView(QWidget * parent, mode modus) : QGraphicsView(parent),
+    mTemperatureBarPtr(new TemperatureBarNormal(),
+    mSteeringWheelPtr(new SteeringWheelNormal()),
+    mBlinkerLeftPtr(new BlinkerNormal(BLINKER_LEFT)),
+    mBlinkerRightPtr(new BlinkerNormal(BLINKER_RIGHT)),
+    mGasPedalPtr(new GasPedalNormal()),
+    mSpeedNeedlePtr(new SpeedNeedleNormal()),
+    mRpmNeedlePtr(new RpmNeedleNormal())
 {
     setScene(new QGraphicsScene(this));
     loadStaticBackground("data/bilder/cluster_rahmen.svg");
@@ -20,6 +21,8 @@ QSvgView::QSvgView(QWidget * parent) : QGraphicsView(parent),
     scene()->addItem(mBlinkerLeftPtr);
     scene()->addItem(mBlinkerRightPtr);
     scene()->addItem(mGasPedalPtr);
+    scene()->addItem(mSpeedNeedlePtr);
+    scene()->addItem(mRpmNeedlePtr);
 }
 
 QSvgView::~QSvgView()
@@ -29,6 +32,9 @@ QSvgView::~QSvgView()
     if (mSteeringWheelPtr) delete mSteeringWheelPtr;
     if (mBlinkerLeftPtr) delete mBlinkerLeftPtr;
     if (mBlinkerRightPtr) delete mBlinkerRightPtr;
+    if (mGasPedalPtr) delete mGasPedalPtr;
+    if (mSpeedNeedlePtr) delete mSpeedNeedlePtr;
+    if (mRpmNeedlePtr) delete mRpmNeedlePtr;
 }
 
 void QSvgView::loadImage(QGraphicsSvgItem ** svgItemPtr, const QString & filename)
@@ -67,7 +73,17 @@ Blinker * QSvgView::getBlinkerLeftPtr(){
 
 GasPedal *QSvgView::getGasPedalPtr()
 {
-return mGasPedalPtr;
+    return mGasPedalPtr;
+}
+
+SpeedNeedle *QSvgView::getSpeedNeedlePtr()
+{
+    return mSpeedNeedlePtr;
+}
+
+RpmNeedle *QSvgView::getRpmNeedlePtr()
+{
+    return mRpmNeedlePtr;
 }
 
 Blinker * QSvgView::getBlinkerRightPtr(){
@@ -90,6 +106,7 @@ void QSvgView::resizeEvent(QResizeEvent * event)
     mBlinkerLeftPtr->resize(backgroundRect.x(), backgroundRect.y());
     mBlinkerRightPtr->resize(backgroundRect.x(), backgroundRect.y());
     mGasPedalPtr->resize(backgroundRect.x(), backgroundRect.y());
-
+    mSpeedNeedlePtr->resize(backgroundRect.x(), backgroundRect.y());
+    mRpmNeedlePtr->resize(backgroundRect.x(), backgroundRect.y());
 }
 

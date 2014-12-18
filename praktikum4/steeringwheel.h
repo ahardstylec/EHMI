@@ -2,20 +2,17 @@
 #define STEERINGWHEEL_H
 
 #include <QObject>
-#include <QGraphicsSvgItem>
+#include "qsvgviewitem.h"
 
-class SteeringWheel : public QGraphicsSvgItem
+class SteeringWheel : public QSvgViewItem
 {
     Q_OBJECT
 public:
     SteeringWheel();
     ~SteeringWheel();
 
-    void resize(qreal xpos, qreal ypos);
-signals:
-
 public slots:
-    void update(qreal value);
+    virtual void update(int value)=0;
 };
 
 #endif // STEERINGWHEEL_H

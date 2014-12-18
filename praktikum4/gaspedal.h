@@ -2,20 +2,20 @@
 #define GASPEDAL_H
 
 #include <QObject>
-#include <QGraphicsSvgItem>
+#include "qsvgviewitem.h"
+#include <QVector3D>
 
 class GasPedal : public QGraphicsSvgItem
 {
     Q_OBJECT
 public:
-    GasPedal();
+    GasPedal(QString filename);
     ~GasPedal();
-    void resize(qreal xpos, qreal ypos);
 
-signals:
-
+private:
+    QVector3D rotationPoint;
 public slots:
-    void update(int value);
+    virtual void update(qreal value)=0;
 };
 
 #endif // GASPEDAL_H

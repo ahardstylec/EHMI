@@ -4,7 +4,6 @@
 #include <QMainWindow>
 #include "CanTraceParser.h"
 #include <QTime>
-#include "temperaturebar.h"
 
 namespace Ui {
 class MainWindow;
@@ -22,7 +21,6 @@ public:
 
 private slots:
     void on_pushButton_toggled(bool checked);
-    void displayBlinker(int);
     void updateTimer();
     void setTime(int);
 
@@ -34,9 +32,8 @@ private:
     QGraphicsSvgItem * mStaticViewPtr;
     QGraphicsSvgItem * mStaticBackgroundPtr;
 
-    QGraphicsItem * mTemperatureBarPtr;
-
     void loadImage(QGraphicsSvgItem **svgItemPtr, const QString &filename);
+    void connectItems();
 };
 
 #endif // MAINWINDOW_H

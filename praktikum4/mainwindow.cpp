@@ -27,19 +27,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&canParser, SIGNAL(Pedal(qreal)), ui->lcdGaspedal, SLOT(display(qreal)));
     connect(&canParser, SIGNAL(LenkradWinkel(int)), ui->lcdSteering, SLOT(display(int)));
     connect(&canParser, SIGNAL(Temperature(qreal)), ui->lcdTemperature, SLOT(display(qreal)));
-    connect(&canParser, SIGNAL(Blinker(int)), this, SLOT(displayBlinker(int)));
     connect(ui->changePlaySpeed, SIGNAL(valueChanged(int)), &canParser, SLOT(SetTimeout(int)));
     connect(ui->playPosition, SIGNAL(sliderMoved(int)), this, SLOT(setTime(int)));
 
-    connect(&canParser, SIGNAL(Temperature(qreal)), ui->graphicsView->getTemperatureBarPtr(), SLOT(update(qreal)));
-    connect(&canParser, SIGNAL(Blinker(int)), ui->graphicsView->getBlinkerLeftPtr(), SLOT(update(int)));
-    connect(&canParser, SIGNAL(Blinker(int)), ui->graphicsView->getBlinkerRightPtr(), SLOT(update(int)));
+    connectItems();
 }
 
-void MainWindow::displayBlinker(int blinker){
-    ui->checkBoxBlinkerLinks->setChecked(blinker == 1);
-    ui->checkBoxBlinkerRechts->setChecked(blinker == -1);
-}
 
 MainWindow::~MainWindow()
 {
@@ -56,7 +49,7 @@ void MainWindow::updateTimer(){
     int ms = time_elapsed < 1000 ? time_elapsed : time_elapsed % 1000;
     time.setHMS(h,m,s, ms);
 
-    qDebug() << time_elapsed << " " << time.toString("hh:mm:ss") << endl;
+//    qDebug() << time_elapsed << " " << time.toString("hh:mm:ss") << endl;
     ui->lcdTimer->display(time.toString("hh:mm:ss"));
     ui->playPosition->setValue(time_elapsed);
 }
@@ -72,6 +65,19 @@ void MainWindow::setTime(int msec){
     qDebug() << time_elapsed << " " << time.toString("hh:mm:ss") << endl;
     ui->lcdTimer->display(time.toString("hh:mm:ss"));
     canParser.setTime(time_elapsed);
+}
+
+void MainWindow::connectItems()
+{
+    connect(&canParser, SIGNAL(RPM(qreal)), ui->graphicsView->getRpmNeedlePtr(), SLOT(update(qreal)));
+    connect(&canParser, SIGNAL(Temperature(qreal)), ui->graphicsView->getTemperatureBarPtr(), SLOT(update(qreal)));
+    connect(&canParser, SIGNAL(LenkradWinkel(int)), ui->graphicsView->getSteeringWheelPtr(), SLOT(update(int)));
+    connect(&canParser, SIGNAL(Speed(qreal)), ui->graphicsView->getSpeedNeedlePtr(), SLOT(update(qreal)));
+    connect(&canParser, SIGNAL(Blinker(int)), ui->graphicsView->getBlinkerLeftPtr(), SLOT(update(int)));
+    connect(&canParser, SIGNAL(Blinker(int)), ui->graphicsView->getBlinkerRightPtr(), SLOT(update(int)));
+    connect(ui->graphicsView->getBlinkerLeftPtr(), SIGNAL(setLight(bool)), ui->checkBoxBlinkerLinks, SLOT(setChecked(bool)));
+    connect(ui->graphicsView->getBlinkerRightPtr(), SIGNAL(setLight(bool)), ui->checkBoxBlinkerRechts, SLOT(setChecked(bool)));
+    connect(&canParser, SIGNAL(Pedal(qreal)), ui->graphicsView->getGasPedalPtr(), SLOT(update(qreal)));
 }
 
 void MainWindow::on_pushButton_toggled(bool checked)

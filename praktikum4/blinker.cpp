@@ -1,13 +1,13 @@
 #include "blinker.h"
-#include "global.h"
+#include <qdebug.h>
+#include  <QTime>
 
-Blinker::Blinker(QString filename, qreal xpos, qreal ypos, int side) : QGraphicsSvgItem(filename)
+Blinker::Blinker(qreal xpos, qreal ypos, int side)
 {
-    this->xpos= xpos;
-    this->ypos= ypos;
     this->side= side;
+    this->isBlinking = false;
     this->setVisible(false);
-    connect(&this->timer, SIGNAL(timeout()), this, SLOT(toggleVisibility()));
+    connect(&this->timer, SIGNAL(timeout()), this, SLOT(blinkerWatchDog()));
 }
 
 Blinker::~Blinker()
@@ -15,22 +15,37 @@ Blinker::~Blinker()
 
 }
 
-void Blinker::toggleVisibility(){
-    this->setVisible(!this->isVisible());
+void Blinker::toggleBlinker(){
+    static QTimer blinktimer;
+
+    if(this->isBlinking){
+        setVisible(!isVisible());
+        blinktimer.singleShot(500, this, SLOT(toggleBlinker()));
+    }else{
+//        qDebug() << "toggleBlinker false hide blinker";
+        setVisible(false);
+    }
 }
 
-void Blinker::resize(qreal xpos, qreal ypos)
-{
-    setPos(xpos +this->xpos, ypos+ this->ypos);
-    setScale(SCALE_FACTOR);
+
+void Blinker::blinkerWatchDog(){
+    this->timer.stop();
+//    qDebug() << "blinkerWatchDog " << "off ";
+    this->isBlinking = false;
+    setVisible(false);
+    setLight(false);
 }
+
 
 void Blinker::update(int value)
 {
+//    qDebug() << this->time.elapsed() << " me " << this->side << " is blining: " << (value == this->side)<<endl ;
     if(this->side == value){
+        if(!this->isBlinking){
+            this->isBlinking = true;
+            setLight(true);
+            this->toggleBlinker();
+        }
         this->timer.start(500);
-    }else{
-        this->timer.stop();
-        this->setVisible(false);
     }
 }
