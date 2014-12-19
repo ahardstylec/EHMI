@@ -2,6 +2,7 @@
 #define TEMPERATUREBARNORMAL_H
 
 #include <QObject>
+#include "temperaturebar.h"
 
 class TemperatureBarNormal : public TemperatureBar
 {

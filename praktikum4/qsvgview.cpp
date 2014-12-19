@@ -4,8 +4,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsSvgItem>
 
-QSvgView::QSvgView(QWidget * parent, mode modus) : QGraphicsView(parent),
-    mTemperatureBarPtr(new TemperatureBarNormal(),
+QSvgView::QSvgView(QWidget * parent) : QGraphicsView(parent),
+    mTemperatureBarPtr(new TemperatureBarNormal()),
     mSteeringWheelPtr(new SteeringWheelNormal()),
     mBlinkerLeftPtr(new BlinkerNormal(BLINKER_LEFT)),
     mBlinkerRightPtr(new BlinkerNormal(BLINKER_RIGHT)),

@@ -72,7 +72,7 @@ void MainWindow::connectItems()
     connect(&canParser, SIGNAL(RPM(qreal)), ui->graphicsView->getRpmNeedlePtr(), SLOT(update(qreal)));
     connect(&canParser, SIGNAL(Temperature(qreal)), ui->graphicsView->getTemperatureBarPtr(), SLOT(update(qreal)));
     connect(&canParser, SIGNAL(LenkradWinkel(int)), ui->graphicsView->getSteeringWheelPtr(), SLOT(update(int)));
-    connect(&canParser, SIGNAL(Speed(qreal)), ui->graphicsView->getSpeedNeedlePtr(), SLOT(update(qreal)));
+//    connect(&canParser, SIGNAL(Speed(qreal)), ui->graphicsView->getSpeedNeedlePtr(), SLOT(update(qreal)));
     connect(&canParser, SIGNAL(Blinker(int)), ui->graphicsView->getBlinkerLeftPtr(), SLOT(update(int)));
     connect(&canParser, SIGNAL(Blinker(int)), ui->graphicsView->getBlinkerRightPtr(), SLOT(update(int)));
     connect(ui->graphicsView->getBlinkerLeftPtr(), SIGNAL(setLight(bool)), ui->checkBoxBlinkerLinks, SLOT(setChecked(bool)));

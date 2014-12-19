@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "CanTraceParser.h"
+#include <QGraphicsSvgItem>
 #include <QTime>
 
 namespace Ui {

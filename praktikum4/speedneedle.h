@@ -5,7 +5,7 @@
 #include <QVector3D>
 #include "qsvgviewitem.h"
 
-class SpeedNeedle : QSvgViewItem
+class SpeedNeedle : public QSvgViewItem
 {
     Q_OBJECT
 public:

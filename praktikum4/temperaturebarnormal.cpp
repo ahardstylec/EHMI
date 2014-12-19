@@ -5,7 +5,6 @@
 #include "global.h"
 
 TemperatureBarNormal::TemperatureBarNormal() :
-    TemperatureBar(),
     QSvgViewItem("bilder/normal-temperature.svg", 378 , -133 )
 {
     originalHeight= this->boundingRect().height();

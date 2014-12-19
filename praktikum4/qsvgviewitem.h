@@ -7,6 +7,7 @@
 
 class QSvgViewItem : public QGraphicsSvgItem
 {
+    Q_OBJECT
 public:
     QSvgViewItem(QString filename, qreal xPosOffset, qreal yPosOffset);
     ~QSvgViewItem();

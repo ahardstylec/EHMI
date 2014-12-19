@@ -6,6 +6,7 @@
 
 class GasPedalNormal : public GasPedal
 {
+    Q_OBJECT
 public:
     GasPedalNormal();
     ~GasPedalNormal();

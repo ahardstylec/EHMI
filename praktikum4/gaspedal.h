@@ -12,6 +12,7 @@ public:
     GasPedal(QString filename);
     ~GasPedal();
 
+    virtual void resize(qreal xpos, qreal ypos)=0;
 private:
     QVector3D rotationPoint;
 public slots:

@@ -1,5 +1,4 @@
 #include "temperaturebar.h"
-#include <QGraphicsSvgItem>
 
 TemperatureBar::TemperatureBar()
 {

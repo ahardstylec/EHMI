@@ -3,18 +3,24 @@
 
 #include <QGraphicsView>
 #include <QGraphicsItem>
-#include "temperaturebar.h"
-#include "steeringwheel.h"
-#include "blinker.h"
-#include "gaspedal.h"
-#include "speedneedle.h"
-#include "rpmneedle.h"
+#include "temperaturebarnormal.h"
+#include "steeringwheelnormal.h"
+#include "blinkernormal.h"
+#include "gaspedalnormal.h"
+#include "speedneedlenormal.h"
+#include "rpmneedlenormal.h"
+#include "temperaturebarspecial.h"
+#include "steeringwheelspecial.h"
+#include "blinkerspecial.h"
+#include "gaspedalspecial.h"
+#include "speedneedlespecial.h"
+#include "rpmneedlespecial.h"
 #include "global.h"
 
 class QSvgView : public QGraphicsView {
     Q_OBJECT
 public:
-    QSvgView(QWidget * parent, mode modus);
+    QSvgView(QWidget * parent);
     ~QSvgView();
 
     void loadStaticBackground(const QString &filename);
@@ -44,7 +50,6 @@ private:
     GasPedal * mGasPedalPtr;
     SpeedNeedle * mSpeedNeedlePtr;
     RpmNeedle *mRpmNeedlePtr;
-
 };
 
 #endif // QSVGVIEW_H

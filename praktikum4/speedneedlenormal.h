@@ -10,6 +10,7 @@ class SpeedNeedleNormal : public SpeedNeedle
 public:
     SpeedNeedleNormal();
     ~SpeedNeedleNormal();
+
     void resize(qreal xpos, qreal ypos);
 public slots:
     void update(qreal value);
