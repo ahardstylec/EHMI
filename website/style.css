@@ -1,0 +1,65 @@
+body{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: gray;
+    background-color: #eee;
+}
+
+#dAnimatedElements{
+    position: absolute;
+    left: 0; top: 100px;
+    z-index: 1;
+}
+
+#dConfig{
+    position: absolute;
+    left: 0; top: 0;
+    z-index: 10;
+}
+
+fieldset{
+    color: white;
+}
+
+fieldset button	{
+    margin: 4px;
+    width: 100px;
+}
+
+input[type=checkbox] {
+    padding-left:5px;
+    padding-right:5px;
+    border-radius:15px;
+
+    width:15px;
+    height:15px;
+
+    vertical-align:middle;
+    text-align:center;
+}
+
+input[type=checkbox]:checked {
+    background-color:#000;
+    border-left-color:#06F;
+    border-right-color:#06F;
+}
+
+#myCanvasSimpleDrawing {
+    background-image: url(data/bilder/cluster_rahmen.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+
+}
+
+.normal_mode {
+    background-image: url(data/bilder/normal-static.svg);
+    background-repeat: no-repeat;
+    background-size: 53%;
+    background-position: 18% 33%;
+}
+
+.special_mode {
+    background-image: url(data/bilder/special-static.svg);
+    background-repeat: no-repeat;
+    background-size: 45%;
+    background-position: 25% 33%;
+}

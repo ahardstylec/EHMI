@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Websocket client test</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+</head>
+<body onload="onLoad()">
+
+<div id="dAnimatedElements">
+    <div id="canvasWrapper" class="normal_mode">
+        <canvas id="myCanvasSimpleDrawing" width="1000" height="350">
+
+        </canvas>
+    </div>
+    <br/>
+    <canvas id="myCanvasCarDataSpeed" width="1000" height="350">
+
+    </canvas>
+    <br/>
+    <canvas id="myCanvasCarDataRPM" width="1000" height="350">
+
+    </canvas>
+
+</div>
+
+
+<!-- Debug und Test Buttons -->
+<div id="dConfig">
+    <fieldset name="grpWebSocketConnection">
+        <legend>WebSocket Connection</legend>
+        <button onClick="initWebsocket();">Connect</button>
+        <button onClick="stopWebsocket();">Disconnect</button>
+        <button onClick="checkSocket();">State</button>
+        <input type="checkbox" id="chkShowTrace" name="ShowTrace" onclick="txtTraceArea.toggleVisibility();"/>Trace
+        Messages
+        <input type="checkbox" id="chkShowDebug" name="ShowDebug" onclick="txtDebugArea.toggleVisibility();"/>Debug
+        Messages
+        <button onClick="drawCanvasExample();">Test</button>
+        <button onClick="switchMode();">Switch Mode</button>
+    </fieldset>
+
+    <textarea id="txtTraceArea" style="width:400px;height:200px;visibility:hidden"></textarea>
+    <textarea id="txtDebugArea" style="width:400px;height:200px;visibility:hidden"></textarea>
+</div>
+</body>
+</html>
