@@ -1,19 +1,39 @@
+toggleVisibility = ->
+    if @style.visibility is "hidden"
+        @style.visibility = "visible"
+    else
+        @style.visibility = "hidden"
+
+class CanControls
+    constructor: ->
+        # Elements from DOM for JavaScript
+        @myTraceCheckBox = document.getElementById("chkShowTrace")
+        @myTraceArea = document.getElementById("txtTraceArea")
+        @myTraceArea.toggleVisibility = toggleVisibility
+
+        @myDebugArea = document.getElementById("txtDebugArea")
+        @myDebugArea.toggleVisibility = toggleVisibility
+
+$(->
+    window.canControls = new CanControls
+)
+
+class CanConnection
+    constructor: ->
+
+
+
+
 # Get the canvas element for example purposes
 $(->
-    # Elements from DOM for JavaScript
-    myTraceCheckBox = document.getElementById("chkShowTrace")
-    myTraceArea = document.getElementById("txtTraceArea")
-    myDebugArea = document.getElementById("txtDebugArea")
+
 
     # Dynamisches erweitern der Objekt-Klasse um die "toggleVisibility" Methode
     Object::toggleVisibility = ->
-        if @style.visibility is "hidden"
-            @style.visibility = "visible"
-        else
-            @style.visibility = "hidden"
 
 
-    # Helper Functions for Numeric Conversion (Degree -> Radian)
+
+        # Helper Functions for Numeric Conversion (Degree -> Radian)
     Number::toRadians = ->
         this * (Math.PI / 180)
 
