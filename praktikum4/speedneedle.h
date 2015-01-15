@@ -9,7 +9,7 @@ class SpeedNeedle : public QSvgViewItem
 {
     Q_OBJECT
 public:
-    SpeedNeedle();
+    SpeedNeedle(QString filename, qreal xPosOffset, qreal yPosOffset);
     ~SpeedNeedle();
     QVector3D rotationPoint;
 

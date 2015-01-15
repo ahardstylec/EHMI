@@ -2,6 +2,7 @@
 #define STEERINGWHEELSPECIAL_H
 
 #include <QObject>
+#include <QVector3D>
 #include "steeringwheel.h"
 
 class SteeringWheelSpecial : public SteeringWheel
@@ -11,8 +12,7 @@ public:
     SteeringWheelSpecial();
     ~SteeringWheelSpecial();
     void resize(qreal xpos, qreal ypos);
-    qreal xPosOffset;
-    qreal yPosOffset;
+    QVector3D rotationPoint;
 
 public slots:
     void update(int value);

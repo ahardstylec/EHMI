@@ -1,6 +1,7 @@
 #include "speedneedle.h"
 
-SpeedNeedle::SpeedNeedle()
+SpeedNeedle::SpeedNeedle(QString filename, qreal xPosOffset, qreal yPosOffset) :
+        QSvgViewItem(filename, xPosOffset, yPosOffset)
 {
 }
 

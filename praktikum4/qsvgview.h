@@ -3,6 +3,9 @@
 
 #include <QGraphicsView>
 #include <QGraphicsItem>
+#include "mainwindow.h"
+#include "staticviewnormal.h"
+#include "staticviewspecial.h"
 #include "temperaturebarnormal.h"
 #include "steeringwheelnormal.h"
 #include "blinkernormal.h"
@@ -24,7 +27,6 @@ public:
     ~QSvgView();
 
     void loadStaticBackground(const QString &filename);
-    void loadStaticView(const QString & filename);
 
     TemperatureBar * getTemperatureBarPtr();
     SteeringWheel *getSteeringWheelPtr();
@@ -33,15 +35,19 @@ public:
     GasPedal * getGasPedalPtr();
     SpeedNeedle * getSpeedNeedlePtr();
     RpmNeedle * getRpmNeedlePtr();
+    mode modus;
 
 protected:
     void resizeEvent(QResizeEvent *event);
 
 private:
-    QGraphicsSvgItem * mStaticViewPtr;
     QGraphicsSvgItem * mStaticBackgroundPtr;
 
     void loadImage(QGraphicsSvgItem **svgItemPtr, const QString &filename);
+    void ChangeToNormalMode();
+    void ChangeToSpecialMode();
+    void reset_pointers();
+    void addItemsToScene();
 
     TemperatureBar * mTemperatureBarPtr;
     SteeringWheel * mSteeringWheelPtr;
@@ -50,6 +56,9 @@ private:
     GasPedal * mGasPedalPtr;
     SpeedNeedle * mSpeedNeedlePtr;
     RpmNeedle *mRpmNeedlePtr;
+    StaticView * mStaticViewPtr;
+public slots:
+    void changeMode(int modus);
 };
 
 #endif // QSVGVIEW_H

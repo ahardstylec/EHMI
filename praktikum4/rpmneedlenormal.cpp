@@ -3,8 +3,7 @@
 #include <QMatrix4x4>
 
 RpmNeedleNormal::RpmNeedleNormal():
-    QSvgViewitem("data/bilder/normal-rpm_needle.svg", 217, 253),
-    RpmNeedle()
+    RpmNeedle("data/bilder/normal-needle_rpm.svg", 217, 253)
 {
 
 }

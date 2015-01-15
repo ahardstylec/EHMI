@@ -1,13 +1,12 @@
 #include "speedneedlenormal.h"
-#include "global.h"
+
 #include <QDebug>
 #include <QMatrix>
 #include <QMatrix4x4>
 #include <QGraphicsRotation>
 
 SpeedNeedleNormal::SpeedNeedleNormal() :
-    SpeedNeedle(),
-    QSvgViewItem("bilder/normal-speed_needle.svg", 610, 215)
+    SpeedNeedle("data/bilder/normal-needle_speed.svg", 610, 215)
 {
 
 }
@@ -19,7 +18,7 @@ SpeedNeedleNormal::~SpeedNeedleNormal()
 
 void SpeedNeedleNormal::resize(qreal xpos, qreal ypos)
 {
-    setPos(xpos+xPosOffset, ypos+yPosOffset);
+    setPos(xpos+ this->xPosOffset, ypos+ this->yPosOffset);
     setScale(SCALE_FACTOR);
     rotationPoint = QVector3D(boundingRect().width()*SCALE_FACTOR, 0 ,0);
 }

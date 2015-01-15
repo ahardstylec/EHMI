@@ -12,8 +12,6 @@ public:
     ~SteeringWheelNormal();
     void resize(qreal xpos, qreal ypos);
     qreal xpos, ypos;
-    qreal xPosOffset;
-    qreal yPosOffset;
 
 public slots:
     void update(int value);

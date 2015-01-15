@@ -8,12 +8,10 @@ class BlinkerNormal : public Blinker
 {
     Q_OBJECT
 public:
-    BlinkerNormal(int side);
+    BlinkerNormal(qreal x, qreal y, int side);
     ~BlinkerNormal();
 
     void resize(qreal xpos, qreal ypos);
-public slots:
-    void update(int value);
 };
 
 #endif // BLINKERNORMAL_H

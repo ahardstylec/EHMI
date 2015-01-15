@@ -18,12 +18,15 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     QTime time;
     qint64 time_elapsed;
+    void connectItems();
     ~MainWindow();
+
 
 private slots:
     void on_pushButton_toggled(bool checked);
     void updateTimer();
     void setTime(int);
+    void changeMode(int mode);
 
 private:
     Ui::MainWindow *ui;
@@ -34,7 +37,6 @@ private:
     QGraphicsSvgItem * mStaticBackgroundPtr;
 
     void loadImage(QGraphicsSvgItem **svgItemPtr, const QString &filename);
-    void connectItems();
 };
 
 #endif // MAINWINDOW_H

@@ -3,8 +3,7 @@
 #include <QDebug>
 
 SteeringWheelNormal::SteeringWheelNormal() :
-    SteeringWheel(),
-    QSvgViewItem("data/bilder/normal-steering_wheel.svg",402, 96)
+    SteeringWheel("data/bilder/normal-steering_wheel.svg",402, 96)
 {
 
 }

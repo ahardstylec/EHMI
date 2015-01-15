@@ -1,6 +1,7 @@
 #include "temperaturebar.h"
 
-TemperatureBar::TemperatureBar()
+TemperatureBar::TemperatureBar(QString filename, qreal xPosOffset, qreal yPosOffset) :
+    QSvgViewItem(filename, xPosOffset, yPosOffset)
 {
 }
 

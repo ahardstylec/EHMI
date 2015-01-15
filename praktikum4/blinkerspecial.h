@@ -8,11 +8,9 @@ class BlinkerSpecial : public Blinker
 {
     Q_OBJECT
 public:
-    BlinkerSpecial(int side);
+    BlinkerSpecial(qreal, qreal, int side);
     ~BlinkerSpecial();
     void resize(qreal xpos, qreal ypos);
-public slots:
-    void update(int value);
 };
 
 #endif // BLINKERSPECIAL_H

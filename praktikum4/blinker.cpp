@@ -2,7 +2,8 @@
 #include <qdebug.h>
 #include  <QTime>
 
-Blinker::Blinker(qreal xpos, qreal ypos, int side)
+Blinker::Blinker(QString filename, qreal xPosOffset, qreal yPosOffset, int side) :
+        QSvgViewItem(filename, xPosOffset, yPosOffset)
 {
     this->side= side;
     this->isBlinking = false;

@@ -1,7 +1,8 @@
 #include "rpmneedle.h"
 #include "global.h"
 
-RpmNeedle::RpmNeedle()
+RpmNeedle::RpmNeedle(QString filename, qreal xPosOffset, qreal yPosOffset) :
+        QSvgViewItem(filename, xPosOffset, yPosOffset)
 {
 
 }

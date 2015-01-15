@@ -9,7 +9,7 @@ class RpmNeedle : public QSvgViewItem
 {
     Q_OBJECT
 public:
-    RpmNeedle();
+    RpmNeedle(QString filename, qreal xPosOffset, qreal yPosOffset);
     ~RpmNeedle();
 
     QVector3D rotationPoint;

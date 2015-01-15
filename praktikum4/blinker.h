@@ -3,14 +3,14 @@
 
 #include <QObject>
 #include <QTimer>
-#include "global.h"
+#include "qsvgviewitem.h"
 #include <QTime>
 
 class Blinker : public QSvgViewItem
 {
     Q_OBJECT
 public:
-    Blinker(int side);
+    Blinker(QString filename, qreal xPosOffset, qreal yPosOffset, int side);
     ~Blinker();
     int side;
     bool isBlinking;

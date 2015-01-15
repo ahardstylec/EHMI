@@ -1,24 +1,31 @@
 #include "temperaturebarspecial.h"
+#include <QGraphicsTransform>
+#include <QMatrix4x4>
 
 TemperatureBarSpecial::TemperatureBarSpecial() :
-    TemperatureBar(),
-    QSvgViewItem("data/bilder/special-temperaturebar.svg", 0,0)
+    TemperatureBar("data/bilder/special-temperature.svg", 373,102)
 {
-
 }
 
 TemperatureBarSpecial::~TemperatureBarSpecial()
 {
-
 }
 
-void TemperatureBarNormal::resize(qreal xpos, qreal ypos)
+void TemperatureBarSpecial::resize(qreal xpos, qreal ypos)
 {
-    setPos(xpos + xPosOffset , ypos + yPosOffset );
-    setScale(SCALE_FACTOR);
+    setPos(xpos + this->xPosOffset , ypos + this->yPosOffset );
+    setScale(0.31);
+    rotationPoint = QVector3D(boundingRect().width(), boundingRect().height() ,0);
+    QMatrix4x4 rotation4x4;
+    QGraphicsRotation rotation;
+    rotation.setOrigin(rotationPoint);
+    rotation.setAngle(-5);
+    rotation.applyTo(&rotation4x4);
+    QTransform transform= rotation4x4.toTransform();
+    setTransform(transform);
 }
 
-void TemperatureBarNormal::update(qreal value)
+void TemperatureBarSpecial::update(qreal value)
 {
 
 }

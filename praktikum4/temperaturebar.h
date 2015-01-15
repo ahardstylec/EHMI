@@ -8,7 +8,7 @@ class TemperatureBar : public QSvgViewItem
 {
     Q_OBJECT
 public:
-    TemperatureBar();
+    TemperatureBar(QString filename, qreal xPosOffset, qreal yPosOffset);
     ~TemperatureBar();
 
 public slots:

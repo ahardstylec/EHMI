@@ -8,7 +8,7 @@ class SteeringWheel : public QSvgViewItem
 {
     Q_OBJECT
 public:
-    SteeringWheel();
+    SteeringWheel(QString filename, qreal xPosOffset, qreal yPosOffset);
     ~SteeringWheel();
 
 public slots:

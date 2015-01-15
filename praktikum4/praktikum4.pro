@@ -34,7 +34,10 @@ SOURCES += main.cpp\
     gaspedalnormal.cpp \
     gaspedalspecial.cpp \
     blinkernormal.cpp \
-    blinkerspecial.cpp
+    blinkerspecial.cpp \
+    staticview.cpp \
+    staticviewnormal.cpp \
+    staticviewspecial.cpp
 
 HEADERS  += mainwindow.h \
             CanTraceParser.h \
@@ -58,7 +61,10 @@ HEADERS  += mainwindow.h \
     gaspedalnormal.h \
     gaspedalspecial.h \
     blinkernormal.h \
-    blinkerspecial.h
+    blinkerspecial.h \
+    staticview.h \
+    staticviewnormal.h \
+    staticviewspecial.h
 
 FORMS    += mainwindow.ui
 

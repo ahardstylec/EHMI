@@ -10,6 +10,7 @@ class GasPedalSpecial : public GasPedal
 public:
     GasPedalSpecial();
     ~GasPedalSpecial();
+    qreal originalHeight;
 
     void resize(qreal xpos, qreal ypos);
 public slots:

@@ -5,15 +5,15 @@
 #include "qsvgviewitem.h"
 #include <QVector3D>
 
-class GasPedal : public QGraphicsSvgItem
+class GasPedal : public QSvgViewItem
 {
     Q_OBJECT
 public:
-    GasPedal(QString filename);
+    GasPedal(QString filename, qreal xPosOffset, qreal yPosOffset);
     ~GasPedal();
 
     virtual void resize(qreal xpos, qreal ypos)=0;
-private:
+protected:
     QVector3D rotationPoint;
 public slots:
     virtual void update(qreal value)=0;

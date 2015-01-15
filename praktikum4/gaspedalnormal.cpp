@@ -3,8 +3,7 @@
 #include <QMatrix4x4>
 
 GasPedalNormal::GasPedalNormal() :
-    GasPedal(),
-    QSvgViewitem("data/bilder/normal-gas_pedal.svg", 438, 215)
+    GasPedal("data/bilder/normal-gas_pedal.svg", 438, 215)
 {
 
 }
