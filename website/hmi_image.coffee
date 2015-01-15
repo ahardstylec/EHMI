@@ -12,5 +12,6 @@ class window.HmiImage
     @img.src= path
     $(@img).on 'load', =>
       ctx.drawImage @img, 0, 0, width, height
+    @
   remove: ->
     @$canvas.remove()
