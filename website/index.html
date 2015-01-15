@@ -5,15 +5,19 @@
     <title>Websocket client test</title>
     <link rel="stylesheet" href="style.css">
     <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="hmi_image.js"></script>
+    <script type="text/javascript" src="hmi_normal.js"></script>
+    <script type="text/javascript" src="hmi_special.js"></script>
     <script type="text/javascript" src="script.js"></script>
 </head>
-<body onload="onLoad()">
+<body>
 
 <div id="dAnimatedElements">
-    <div id="canvasWrapper" class="normal_mode">
-        <canvas id="myCanvasSimpleDrawing" width="1000" height="350">
-
-        </canvas>
+    <div id="hmi_normal_mode">
+        <canvas class="myCanvasSimpleDrawing" width="1000" height="350"></canvas>
+    </div>
+    <div id="hmi_special_mode" class="hidden">
+        <canvas class="myCanvasSimpleDrawing" width="1000" height="350"></canvas>
     </div>
     <br/>
     <canvas id="myCanvasCarDataSpeed" width="1000" height="350">

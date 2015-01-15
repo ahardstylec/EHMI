@@ -17,7 +17,7 @@ body{
 }
 
 fieldset{
-    color: white;
+    color: black;
 }
 
 fieldset button	{
@@ -43,23 +43,31 @@ input[type=checkbox]:checked {
     border-right-color:#06F;
 }
 
-#myCanvasSimpleDrawing {
+.myCanvasSimpleDrawing {
     background-image: url(data/bilder/cluster_rahmen.svg);
     background-repeat: no-repeat;
     background-size: contain;
-
 }
 
-.normal_mode {
+#hmi_normal_mode {
     background-image: url(data/bilder/normal-static.svg);
     background-repeat: no-repeat;
     background-size: 53%;
     background-position: 18% 33%;
 }
 
-.special_mode {
+#hmi_special_mode {
     background-image: url(data/bilder/special-static.svg);
     background-repeat: no-repeat;
     background-size: 45%;
     background-position: 25% 33%;
+}
+
+.hmi_image{
+    position: absolute;
+    visibility: visible !important;
+}
+
+.hidden{
+    display: none;
 }
