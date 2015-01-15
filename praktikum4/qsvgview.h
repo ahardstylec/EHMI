@@ -47,7 +47,7 @@ private:
     void ChangeToNormalMode();
     void ChangeToSpecialMode();
     void reset_pointers();
-    void addItemsToScene();
+    void addItemsToScene(int modus);
 
     TemperatureBar * mTemperatureBarPtr;
     SteeringWheel * mSteeringWheelPtr;

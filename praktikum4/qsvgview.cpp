@@ -14,7 +14,7 @@ QSvgView::QSvgView(QWidget * parent) : QGraphicsView(parent),
     mRpmNeedlePtr(new RpmNeedleNormal()),
     mStaticViewPtr(new StaticViewNormal())
 {
-    addItemsToScene();
+    addItemsToScene(1);
 }
 
 void QSvgView::changeMode(int modus){
@@ -41,21 +41,30 @@ void QSvgView::changeMode(int modus){
        mSpeedNeedlePtr = new SpeedNeedleNormal();
        mRpmNeedlePtr = new RpmNeedleNormal();
    }
-   addItemsToScene();
+   addItemsToScene(modus);
 }
 
-void QSvgView::addItemsToScene(){
+void QSvgView::addItemsToScene(int modus){
     setScene(new QGraphicsScene(this));
     loadStaticBackground("data/bilder/cluster_rahmen.svg");
     scene()->addItem(mStaticBackgroundPtr);
     scene()->addItem(mStaticViewPtr);
     scene()->addItem(mTemperatureBarPtr);
+    if(modus== -3){
+        scene()->addItem(((TemperatureBarSpecial *) mTemperatureBarPtr)->getTempTwoPtr());
+        scene()->addItem(((TemperatureBarSpecial *) mTemperatureBarPtr)->getTempThreePtr());
+    }
     scene()->addItem(mSteeringWheelPtr);
     scene()->addItem(mBlinkerLeftPtr);
     scene()->addItem(mBlinkerRightPtr);
     scene()->addItem(mGasPedalPtr);
     scene()->addItem(mSpeedNeedlePtr);
     scene()->addItem(mRpmNeedlePtr);
+    if(modus== -3){
+        scene()->addItem(((RpmNeedleSpecial *) mRpmNeedlePtr)->getTempTwoPtr());
+        scene()->addItem(((RpmNeedleSpecial *) mRpmNeedlePtr)->getTempThreePtr());
+        scene()->addItem(((RpmNeedleSpecial *) mRpmNeedlePtr)->getTempFourPtr());
+    }
 }
 
 QSvgView::~QSvgView()
