@@ -35,19 +35,14 @@
 <div id="dConfig">
     <fieldset name="grpWebSocketConnection">
         <legend>WebSocket Connection</legend>
-        <button onClick="initWebsocket();">Connect</button>
-        <button onClick="stopWebsocket();">Disconnect</button>
-        <button onClick="checkSocket();">State</button>
-        <input type="checkbox" id="chkShowTrace" name="ShowTrace" onclick="txtTraceArea.toggleVisibility();"/>Trace
-        Messages
-        <input type="checkbox" id="chkShowDebug" name="ShowDebug" onclick="txtDebugArea.toggleVisibility();"/>Debug
-        Messages
+        <button onClick="canConnection.initWebsocket();">Connect</button>
+        <button onClick="canConnection.stopWebsocket();">Disconnect</button>
+        <button onClick="canConnection.checkSocket();">State</button>
+
         <button onClick="drawCanvasExample();">Test</button>
         <button onClick="switchMode();">Switch Mode</button>
     </fieldset>
 
-    <textarea id="txtTraceArea" style="width:400px;height:200px;visibility:hidden"></textarea>
-    <textarea id="txtDebugArea" style="width:400px;height:200px;visibility:hidden"></textarea>
 </div>
 </body>
 </html>
