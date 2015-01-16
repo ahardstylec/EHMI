@@ -23,17 +23,25 @@ class window.HmiNormal  extends Hmi
 
   updateRpm: (value)->
     @rpmNeedle.rotate(value*1.8)
+
   updateSpeed: (value)->
     @speedNeedle.rotate(value*0.036)
 
   updatePedal: (value)->
+    ctx = @gasPedal.$canvas[0].getContext("2d")
+    ctx.clearRect(0,0, @gasPedal.$canvas[0].width, @gasPedal.$canvas[0].height);
+    ctx.save();
+    ctx.rotate((value*0.4).toRadians())
+    ctx.translate(@gasPedal.img_width/2, 0)
+    ctx.drawImage(@gasPedal.img, 0, 0, @gasPedal.img_width, @gasPedal.img_height)
+    ctx.restore();
 
   updateSteeringWheel: (value)->
     ctx = @steeringWheel.$canvas[0].getContext("2d")
     ctx.clearRect(0,0, @steeringWheel.$canvas[0].width, @steeringWheel.$canvas[0].height);
     ctx.save();
-#    ctx.transform(value/100, 0)
-    ctx.drawImage(@steeringWheel.img, @steeringWheel.img_pos_x+(value/70), @steeringWheel.img_pos_y, @steeringWheel.img_width, @steeringWheel.img_height)
+    ctx.translate(value/70, 0)
+    ctx.drawImage(@steeringWheel.img, @steeringWheel.img_pos_x, @steeringWheel.img_pos_y, @steeringWheel.img_width, @steeringWheel.img_height)
     ctx.restore();
 
   updateTemperature: (value)->
@@ -56,13 +64,10 @@ class window.HmiNormal  extends Hmi
       when "256" #RPM
         myStringRpm = "0x#{value.replace("0x", "").substring(8, 4)}"
         myRealRPM= parseInt(myStringRpm) * 0.25 + 0
-        @rpm.update(myRealRPM)
-
-        myPedal= "0x#{value.replace("0x", "").substr(10, 2)}"
+        myPedal= "0x#{value.replace("0x", "").substring(10, 2)}"
         myPedal = parseInt(myPedal) * 0.4 + 0;
-        return
         @updatePedal(myPedal)
-        @updateRpm(parseInt(myString) * 0.25 + 0)
+        @updateRpm(parseInt(myRealRPM) * 0.25 + 0)
         break
       when "867" #Blinker
         myString = "0x#{value.replace("0x", "").substr(5, 1)}"

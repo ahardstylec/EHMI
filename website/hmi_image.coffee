@@ -27,7 +27,8 @@ class window.HmiImage
     ctx = @$canvas[0].getContext("2d")
     ctx.clearRect(0,0, @$canvas[0].width, @$canvas[0].height);
     ctx.save();
-    ctx.translate(@img_width, 0)
+    ctx.translate(@canvas_width, 0)
     ctx.rotate(deg.toRadians())
-    ctx.drawImage(@img, 0, 0, @img_width, @img_height)
+    ctx.translate(-@canvas_width, 0)
+    ctx.drawImage(@img, @img_pos_x, @img_pos_y, @img_width, @img_height)
     ctx.restore();
