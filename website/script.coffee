@@ -59,22 +59,17 @@ class CanConnection
     # Here we process the received data
     # Can be optimized by seperating all of this into seperate functions
     processCanMessage: (data) ->
-
         # The sent data comes in JSON-Format
         myJSON = JSON.parse(data)
-
         # List of IDs we are interested in. (just for performance)
-        return  if myJSON.ID isnt 256 and myJSON.ID isnt 261 and myJSON.ID isnt 867
+        return  if myJSON.ID isnt "256" and myJSON.ID isnt "261" and myJSON.ID isnt "867" and myJSON.ID isnt "1600" and myJSON.ID isnt "134"
 
         # Debug
         myDebugMsg = data + "\r\n" + "obj: " + myJSON + "\r\n" + "ID: " + myJSON.ID + "\r\n" + "Data: " + myJSON.Data + "\r\n"
-
         # Count relevant Messages
         @myMessageCnt++
-
-        # SPEED => ID 256
-        hmi_normal.update(myJSON.ID, myJSON.Data)
-        hmi_special.update(myJSON.ID, myJSON.Data)
+        window.hmi_normal.update(myJSON.ID, myJSON.Data) if window.hmi_normal && window.hmi_normal.container.is(':visible')
+        window.hmi_special.update(myJSON.ID, myJSON.Data) if window.hmi_special && window.hmi_special.container.is(':visible')
 
     # Stops/Closes the WebSocket and connection
     stopWebsocket: ->
@@ -93,30 +88,28 @@ class CanConnection
         else
             console.info "Websocket is null"
 
+window.drawCanvasExample = ->
+    console.debug "drawing canvas"
+    # Reset the Canvas
+    # Setting the width or height of a <canvas> element will erase its contents and
+    # reset all the properties of its drawing context to their default values. The values don't have to be changed.
+    # Simply re-set it to its current value, as for example:
+    if ! window.hmi_normal && ! window.hmi_special
+        window.hmi_normal = new HmiNormal()
+        window.hmi_special = new HmiSpecial()
 
-$(->
-    window.canConnection = new CanConnection
+window.switchMode = ->
+    $("#hmi_normal_mode").toggleClass('hidden')
+    $("#hmi_special_mode").toggleClass('hidden')
 
-        # Helper Functions for Numeric Conversion (Degree -> Radian)
-    Number::toRadians = ->
-        this * (Math.PI / 180)
-
+Number::toRadians = ->
+    this * (Math.PI / 180)
 
     # Helper Functions for Numeric Conversion (Radian -> Degree)
-    Number::toDegrees = ->
-        this * (180 / Math.PI)
+Number::toDegrees = ->
+    this * (180 / Math.PI)
 
-    window.switchMode = ->
-        $("#hmi_normal_mode").toggleClass('hidden')
-        $("#hmi_special_mode").toggleClass('hidden')
-
-    # Draw something on a canvas
-    window.drawCanvasExample = ->
-        console.debug "drawing canvas"
-        # Reset the Canvas
-        # Setting the width or height of a <canvas> element will erase its contents and
-        # reset all the properties of its drawing context to their default values. The values don't have to be changed.
-        # Simply re-set it to its current value, as for example:
-        window.hmi_normal = new HmiNormal();
-        window.hmi_special = new HmiSpecial();
+$(->
+    window.canConnection = new CanConnection()
+    window.drawCanvasExample()
 )

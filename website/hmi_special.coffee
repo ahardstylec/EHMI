@@ -3,12 +3,14 @@ class window.temperatureSpecial extends HmiImage
     super(container, path, w,h,x,y)
     @tmpTwo = new HmiImage container, "data/bilder/special-temperature-2.svg", w,h,x,y
     @tmpThree = new HmiImage container, "data/bilder/special-temperature-1.svg", w,h,x-3,y-5
+    @$canvas.css('opacity', 0)
+    @tmpTwo.$canvas.css('opacity', 0)
+    @tmpThree.$canvas.css('opacity', 0)
     @
   update: (value)->
     @tmpThree.$canvas.css('opacity', (value-90)/30)
     @tmpTwo.$canvas.css('opacity', (value-70)/20)
     @$canvas.css('opacity',(value-50)/20)
-
 
 class window.RpmSpecial extends HmiImage
   constructor: (container, path, w,h,x,y)->
@@ -16,6 +18,10 @@ class window.RpmSpecial extends HmiImage
     @tmpTwo = new HmiImage container, "data/bilder/special-rpm-2.svg", w, h, x, y
     @tmpThree = new HmiImage container, "data/bilder/special-rpm-3.svg", w, h, x, y
     @tmpFour = new HmiImage container, "data/bilder/special-rpm-4.svg", w, h, x+3, y-2
+    @$canvas.css('opacity', 0)
+    @tmpTwo.$canvas.css('opacity', 0)
+    @tmpThree.$canvas.css('opacity', 0)
+    @tmpFour.$canvas.css('opacity', 0)
     @
   update: (value)->
     @tmpFour.$canvas.css('opacity', (value-4000)/1000)
@@ -24,7 +30,7 @@ class window.RpmSpecial extends HmiImage
     @$canvas.css('opacity', value/1500)
 
 
-class window.HmiSpecial
+class window.HmiSpecial extends Hmi
   constructor: ->
     @container= $('#hmi_special_mode')
     @createImages()
@@ -46,31 +52,48 @@ class window.HmiSpecial
     @gasPedal.remove()
 
   updateSpeed: (value)->
-    @speedNeedle.$canvas.rotate(value*1.8);
+    @speedNeedle.rotate(value/180);
 
-  updateBlinker: (links, rechts)->
-    if links
-      @BlinkerLeft.start()
-    else
-      @BlinkerLeft.stop()
-    if rechts
-      @blinkerRight.start()
-    else
-      @blinkerRight.stop()
+  updatePedal: (value)->
+
+  updateSteeringWheel: (value)->
+    ctx = @steeringWheel.$canvas[0].getContext("2d")
+    ctx.clearRect(0,0, @steeringWheel.$canvas[0].width, @steeringWheel.$canvas[0].height);
+    ctx.save();
+    #    ctx.transform(value/100, 0)
+    ctx.drawImage(@steeringWheel.img, @steeringWheel.img_pos_x+(value/70), @steeringWheel.img_pos_y, @steeringWheel.img_width, @steeringWheel.img_height)
+    ctx.restore();
 
   update: (id, value)->
     switch(id)
-      when 261 #SPEED
+      when "261" #SPEED
         myString = "0x#{value.replace("0x", "").substr(4, 4)}"
+        return
         @updateSpeed(parseInt(myString) * 0.01 + 0)
         break
-      when 256 #RPM
-        myString = "0x#{value.replace("0x", "").substr(8, 4)}"
-        @rpm.update(parseInt(myString) * 0.25 + 0)
+      when "256" #RPM
+        myStringRpm = "0x#{value.replace("0x", "").substring(8, 4)}"
+        myRealRPM= parseInt(myStringRpm) * 0.25 + 0
+        @rpm.update(myRealRPM)
+
+        myPedal= "0x#{value.replace("0x", "").substr(10, 2)}"
+        myPedal = parseInt(myPedal) * 0.4 + 0;
+        @updatePedal(myPedal)
         break
-      when 867 #Blinker
+      when "867" #Blinker
         myString = "0x#{value.replace("0x", "").substr(5, 1)}"
         myBlinkerLinks = parseInt(myString) >> 1
         myBlinkerRechts = parseInt(myString) & 0x1
-        updateBlinker(myBlinkerLinks > 0, myBlinkerRechts > 0)
+        @updateBlinker(myBlinkerLinks > 0, myBlinkerRechts > 0)
+        break
+      when "1600"
+        myString = "0x#{value.replace("0x", "").substr(8, 2)}"
+        myTemp= (parseInt(myString)* 0.75 - 48)
+        @temperature.update(myTemp)
+        break
+      when "134"
+        vorzeichen =parseInt("0x#{value.replace("0x", "").substr(6, 1)}")
+        wert= parseInt("0x#{value.replace("0x", "").substring(8, 4)}")* 0.1 + 0
+        wert = wert*-1 if vorzeichen == 1
+        @updateSteeringWheel(wert)
         break

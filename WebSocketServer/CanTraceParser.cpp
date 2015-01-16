@@ -186,7 +186,7 @@ void CanTraceParser::ProcessLine(QString _Line)
                 // Richtiger Wert
                 myWinkel = myWinkel * 0.1 + 0;
 
-                // Vorzeichen anfügen
+                // Vorzeichen anfï¿½gen
                 if(myVorzeichen==1)
                 {
                    myWinkel *= -1;
