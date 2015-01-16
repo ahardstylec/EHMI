@@ -13,22 +13,26 @@ class window.HmiImage
     @$canvas.attr 'height', @context_height
     @$canvas.css left: context_x, top: context_y
     @$canvas.appendTo container
-    ctx = @$canvas[0].getContext "2d"
+    @ctx = @$canvas[0].getContext "2d"
     @img = new Image()
     @img.src= path
     $(@img).on 'load', =>
-      ctx.drawImage @img, @img_pos_x, @img_pos_y, @img_width, @img_height
+      @ctx.drawImage @img, @img_pos_x, @img_pos_y, @img_width, @img_height
     @
 
   remove: ->
     @$canvas.remove()
 
-  rotate: (deg)->
-    ctx = @$canvas[0].getContext("2d")
+  rotate: (deg, is_deg)->
+    ctx = @ctx
+    #ctx = @$canvas[0].getContext("2d")
     ctx.clearRect(0,0, @$canvas[0].width, @$canvas[0].height);
     ctx.save();
-    ctx.translate(@canvas_width, 0)
-    ctx.rotate(deg.toRadians())
-    ctx.translate(-@canvas_width, 0)
+    ctx.translate(@$canvas[0].width/2, @$canvas[0].height/2)
+    if is_deg
+      ctx.rotate(deg)
+    else
+      ctx.rotate(deg.toRadians())
+    ctx.translate(-@$canvas[0].width/2, -@$canvas[0].height/2)
     ctx.drawImage(@img, @img_pos_x, @img_pos_y, @img_width, @img_height)
     ctx.restore();

@@ -35,7 +35,7 @@ class window.HmiSpecial extends Hmi
     @container= $('#hmi_special_mode')
     @createImages()
   createImages: ->
-    @speedNeedle= new HmiImage(@container, "data/bilder/special-speed.svg", 50, 50, 310, 150)
+    @speedNeedle= new HmiImage(@container, "data/bilder/special-speed.svg", 50, 50, 280, 80, 150, 150, 33, 68)
     @temperature= new temperatureSpecial(@container, "data/bilder/special-temperature-3.svg", 50, 130, 243, 88)
     @rpm= new RpmSpecial(@container, "data/bilder/special-rpm-1.svg", 50, 130, 420, 85)
     @blinkerLeft= new Blinker(@container, "data/bilder/special-blinker_left.svg", 47, 25, 153, 220)
@@ -52,9 +52,15 @@ class window.HmiSpecial extends Hmi
     @gasPedal.remove()
 
   updateSpeed: (value)->
-    @speedNeedle.rotate(value/180);
+    @speedNeedle.rotate(value*0.036, true);
+
+  updateRpm: (value)->
+    @rpm.update(value)
 
   updatePedal: (value)->
+
+  updateSteeringWheel: (value)->
+    @temperature.update(myTemp)
 
   updateSteeringWheel: (value)->
     ctx = @steeringWheel.$canvas[0].getContext("2d")
@@ -63,37 +69,3 @@ class window.HmiSpecial extends Hmi
     ctx.translate(value/70, 0)
     ctx.drawImage(@steeringWheel.img, @steeringWheel.img_pos_x, @steeringWheel.img_pos_y, @steeringWheel.img_width, @steeringWheel.img_height)
     ctx.restore();
-
-  update: (id, value)->
-    switch(id)
-      when "261" #SPEED
-        myString = "0x#{value.replace("0x", "").substr(4, 4)}"
-        return
-        @updateSpeed(parseInt(myString) * 0.01 + 0)
-        break
-      when "256" #RPM
-        myStringRpm = "0x#{value.replace("0x", "").substring(8, 4)}"
-        myRealRPM= parseInt(myStringRpm) * 0.25 + 0
-        @rpm.update(myRealRPM)
-
-        myPedal= "0x#{value.replace("0x", "").substring(10, 2)}"
-        myPedal = parseInt(myPedal) * 0.4 + 0;
-        @updatePedal(myPedal)
-        break
-      when "867" #Blinker
-        myString = "0x#{value.replace("0x", "").substr(5, 1)}"
-        myBlinkerLinks = parseInt(myString) >> 1
-        myBlinkerRechts = parseInt(myString) & 0x1
-        @updateBlinker(myBlinkerLinks > 0, myBlinkerRechts > 0)
-        break
-      when "1600"
-        myString = "0x#{value.replace("0x", "").substr(8, 2)}"
-        myTemp= (parseInt(myString)* 0.75 - 48)
-        @temperature.update(myTemp)
-        break
-      when "134"
-        vorzeichen =parseInt("0x#{value.replace("0x", "").substr(6, 1)}")
-        wert= parseInt("0x#{value.replace("0x", "").substring(8, 4)}")* 0.1 + 0
-        wert = wert*-1 if vorzeichen == 1
-        @updateSteeringWheel(wert)
-        break

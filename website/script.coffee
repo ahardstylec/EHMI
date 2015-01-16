@@ -2,6 +2,7 @@ class CanConnection
     constructor: ->
         # WebSocket Connection URL + Port
         @wsUri = "ws://127.0.0.1:18000"
+#        @wsUri = "ws://141.100.40.193:18000"
         @websocket = null
         # Counts the received overall Messages
         @myMessageCnt = 0
